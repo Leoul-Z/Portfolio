@@ -29,8 +29,8 @@ function Project() {
       date: 'Jul 2025 – Dec 2025',
       status: 'Completed',
       tags: ['Django', 'Python', 'HTML/CSS'],
-      description: 'A full-stack task management application built with Django, featuring secure user authentication, role-based access control, database management, and a clean interactive kanban UI.',
-      link: 'https://github.com/Leoul-Z/Taskmanager'
+      description: 'A task management application built with Django, featuring secure user authentication, role-based access control, database management, and a clean interactive UI.',
+      link: 'https://github.com/Leoul-Z/Task-Management-API'
     },
     {
       title: 'Petify',
