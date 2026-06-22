@@ -25,7 +25,7 @@ function Project() {
       link: 'https://github.com/Leoul-Z/ScoreSync'
     },
     {
-      title: 'TaskManager',
+      title: 'Planora',
       date: 'Jul 2025 – Dec 2025',
       status: 'Completed',
       tags: ['Django', 'Python', 'HTML/CSS'],
