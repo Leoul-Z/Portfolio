@@ -17,6 +17,14 @@ const itemVariants = {
 function Project() {
   const projects = [
     {
+      title: 'DeskFlow',
+      date: '2026',
+      tags: ['React', 'Tailwind CSS'],
+      description: 'A full-stack helpdesk ticketing system with role-based workflows for employees, technical staff, and managers — built with Express, React, PostgreSQL (Prisma), and JWT authentication.',
+      github: 'https://github.com/Leoul-Z/Helpdesk',
+      website: 'https://helpdesk-one-rho.vercel.app/'
+    },
+    {
       title: 'Hulu Rent',
       date: '2026',
       tags: ['React', 'Node.js', 'Express', 'Tailwind CSS', 'PostgreSQL'],
