@@ -17,20 +17,20 @@ const itemVariants = {
 function Project() {
   const projects = [
     {
-      title: 'DeskFlow',
-      date: '2026',
-      tags: ['React', 'Tailwind CSS'],
-      description: 'A full-stack helpdesk ticketing system with role-based workflows for employees, technical staff, and managers — built with Express, React, PostgreSQL (Prisma), and JWT authentication.',
-      github: 'https://github.com/Leoul-Z/Helpdesk',
-      website: 'https://helpdesk-one-rho.vercel.app/'
-    },
-    {
       title: 'Hulu Rent',
       date: '2026',
       tags: ['React', 'Node.js', 'Express', 'Tailwind CSS', 'PostgreSQL'],
       description: 'A comprehensive property rental platform designed to streamline the process of finding and listing properties. It features advanced search filters, secure user authentication, and an intuitive property management interface for owners.',
       github: 'https://github.com/HuluRent/HuluRent',
       website: 'https://hulu-rent-xqpm.vercel.app/'
+    },
+    {
+      title: 'DeskFlow',
+      date: '2026',
+      tags: ['React', 'Node.js', 'Express', 'Tailwind CSS', 'PostgreSQL'],
+      description: 'A full-stack helpdesk ticketing system with role-based workflows for employees, technical staff, and managers — built with Express, React, PostgreSQL (Prisma), and JWT authentication.',
+      github: 'https://github.com/Leoul-Z/Helpdesk',
+      website: 'https://helpdesk-one-rho.vercel.app/'
     },
     {
       title: 'Petify',
