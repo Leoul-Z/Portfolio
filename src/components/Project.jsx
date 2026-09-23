@@ -39,20 +39,6 @@ function Project() {
       description: 'A dynamic pet shop web application built with a React frontend and a PHP backend. Features product catalog browsing with custom category filtering, shopping cart checkout, and service appointment booking.',
       github: 'https://github.com/Leoul-Z/Petify',
       website: 'https://petify-plum.vercel.app/'
-    },
-    {
-      title: 'ScoreSync',
-      date: '2026',
-      tags: ['React', 'REST API', 'HTML/CSS'],
-      description: 'A real-time sports score platform providing live match updates and game information through a fast, responsive interface. Designed with performance and low latency in mind, integrating external live data streams.',
-      github: 'https://github.com/Leoul-Z/ScoreSync'
-    },
-    {
-      title: 'Planora',
-      date: '2025',
-      tags: ['Django', 'Python', 'HTML/CSS'],
-      description: 'A task management application built with Django, featuring secure user authentication, role-based access control, database management, and a clean interactive UI.',
-      github: 'https://github.com/Leoul-Z/Task-Management-API'
     }
   ]
 

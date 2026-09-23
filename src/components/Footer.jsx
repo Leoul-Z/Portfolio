@@ -33,7 +33,7 @@ function Footer() {
     },
     {
       name: 'Telegram',
-      href: 'https://t.me/chris_SMRJN',
+      href: 'https://t.me/leoniazz',
       icon: <TelegramIcon size={20} />,
       accent: '#229ED9',
       description: '@chris_SMRJN'
