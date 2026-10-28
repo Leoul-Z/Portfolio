@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { Award, Calendar, Clock, X, ZoomIn, ExternalLink } from 'lucide-react'
+import { Calendar, Clock, X, ZoomIn, ExternalLink, CheckCircle2 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 import certUdacity   from '../assets/certificates/udacity_programming_fundamentals.jpg'
@@ -10,74 +10,87 @@ import certHuaweiDC  from '../assets/certificates/huawei_hcia_datacom.jpg'
 
 const items = [
   {
+    id: 'alx-se',
     title: 'ALX Software Engineering',
-    subtitle: 'Back-End Web Development',
+    subtitle: 'Back-End Web Development Specialization',
     issuer: 'ALX',
+    issuerCategory: 'alx',
     date: 'Mar 2026',
     duration: '8 Months',
     image: certAlxSE,
-    description: 'Completed a rigorous 4-month ALX Software Engineering Programme specialising in Back-End Web Development. Covered server-side architecture, RESTful API design, databases, and deployment pipelines.',
-    accent: '#00E5A0',
+    description: 'Completed a rigorous 8-month ALX Software Engineering Programme specialising in Back-End Web Development. Covered server-side architecture, RESTful API design, database schemas, and deployment pipelines.',
+    accent: '#10B981', // Emerald
     link: 'https://savanna.alxafrica.com/certificates/LFSyC93BY7'
   },
   {
+    id: 'alx-pf',
     title: 'ALX Professional Foundations',
     subtitle: 'Professional Development for the Digital Age',
     issuer: 'ALX',
+    issuerCategory: 'alx',
     date: 'Sep 2025',
     duration: '3 Months',
     image: certAlxPF,
-    description: 'Awarded for completing Professional Development Skills for the Digital Age — covering critical thinking, communication, teamwork, and problem-solving in professional and tech environments.',
-    accent: '#00BFFF',
+    description: 'Awarded for completing Professional Development Skills for the Digital Age — covering critical thinking, team collaboration, technical problem-solving, and communication in professional engineering environments.',
+    accent: '#06B6D4', // Cyan
     link: 'https://savanna.alxafrica.com/certificates/PHhJ5yGB8F'
   },
   {
+    id: 'udacity-pf',
     title: 'Programming Fundamentals',
     subtitle: 'Udacity Nanodegree',
     issuer: 'Udacity',
+    issuerCategory: 'udacity',
     date: 'Oct 2025',
     duration: 'Nanodegree',
     image: certUdacity,
-    description: 'Verified Nanodegree completion from Udacity covering core programming concepts including algorithms, data structures, logic building, and problem-solving fundamentals essential for software engineering.',
-    accent: '#02B3E4',
+    description: 'Verified Nanodegree completion from Udacity covering core programming concepts including algorithms, data structures, computational logic, and problem-solving fundamentals essential for software engineering.',
+    accent: '#38BDF8', // Sky Blue
     link: 'https://www.udacity.com/certificate/e/a12d95ec-793e-11f0-9d7a-abefb65b1531'
   },
   {
+    id: 'huawei-og',
     title: 'HCIA-openGauss V1.0',
-    subtitle: 'Huawei Database Certification',
+    subtitle: 'Huawei Enterprise Database Certification',
     issuer: 'Huawei',
+    issuerCategory: 'huawei',
     date: 'May 2025',
     duration: '~4 Months',
     image: certHuaweiOG,
-    description: 'Huawei Certified ICT Associate in openGauss database technology. Covers database architecture, SQL operations, performance tuning, backup and recovery strategies, and database security management.',
-    accent: '#CF0A2C',
+    description: 'Huawei Certified ICT Associate in openGauss database technology. Covers database architecture, SQL operations, query performance tuning, backup & recovery strategies, and enterprise database security management.',
+    accent: '#EF4444', // Red
     link: null
   },
   {
+    id: 'huawei-dc',
     title: 'HCIA-Datacom V1.0',
-    subtitle: 'Huawei ICT Certification',
+    subtitle: 'Huawei ICT Network Certification',
     issuer: 'Huawei',
+    issuerCategory: 'huawei',
     date: 'May 2025',
     duration: '~4 Months',
     image: certHuaweiDC,
-    description: 'Huawei Certified ICT Associate in Data Communications. Covers networking fundamentals, IP routing and switching, WLAN, and data center network technologies used in enterprise environments.',
-    accent: '#CF0A2C',
+    description: 'Huawei Certified ICT Associate in Data Communications. Covers networking fundamentals, IP routing and switching, network protocols, WLAN, and data center network architectures used in enterprise environments.',
+    accent: '#F59E0B', // Amber
     link: null
   }
 ]
+
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.2 } }
+  visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.15 } }
 }
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
 }
 
 function CertModal({ item, onClose }) {
   useEffect(() => {
-    const handler = (e) => { if (e.key === 'Escape') onClose() }
+    const handler = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
     window.addEventListener('keydown', handler)
     document.body.style.overflow = 'hidden'
     return () => {
@@ -91,72 +104,84 @@ function CertModal({ item, onClose }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.25 }}
+      transition={{ duration: 0.2 }}
       onClick={onClose}
-      className="fixed inset-0 z-50 bg-black/88 backdrop-blur-md flex items-center justify-center p-4 md:p-10"
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cert-modal-title"
     >
       <motion.div
-        initial={{ opacity: 0, scale: 0.88, y: 30 }}
+        initial={{ opacity: 0, scale: 0.92, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.92, y: 20 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
+        exit={{ opacity: 0, scale: 0.94, y: 15 }}
+        transition={{ duration: 0.25, ease: 'easeOut' }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-4xl bg-bg-surface rounded-2xl border border-secondary-muted overflow-hidden shadow-2xl"
+        className="relative w-full max-w-4xl bg-[var(--bg-surface)] rounded-2xl border border-[var(--border-strong)] overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
       >
-        <div className="flex items-center justify-between px-5 py-4 border-b border-secondary-muted">
+        {/* Modal Header */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border-subtle)] bg-[var(--bg-card)]">
           <div>
-            <h3 className="text-sm font-bold text-primary-accent">{item.title}</h3>
-            <p className="text-xs mt-0.5 font-semibold" style={{ color: item.accent }}>
+            <h3 id="cert-modal-title" className="text-base sm:text-lg font-bold text-[var(--text-primary)]">
+              {item.title}
+            </h3>
+            <p className="text-xs font-mono font-medium mt-0.5" style={{ color: item.accent }}>
               {item.subtitle}
             </p>
           </div>
+          
           <div className="flex items-center gap-3">
             {item.link && (
               <a
                 href={item.link}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-1.5 text-[11px] font-semibold text-neon-cyan hover:text-primary-accent transition-colors px-3 py-1.5 border border-neon-cyan/30 rounded-lg bg-neon-cyan/5 hover:bg-neon-cyan/10"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-[var(--accent-cyan)]/40 bg-[var(--accent-cyan)]/10 text-[var(--text-primary)] hover:bg-[var(--accent-cyan)] hover:text-white transition-all cursor-pointer"
               >
-                <ExternalLink size={12} />
-                Verify Certificate
+                <ExternalLink size={13} />
+                <span>Verify Credential</span>
               </a>
             )}
+            
             <button
               onClick={onClose}
-              className="flex items-center justify-center w-8 h-8 rounded-lg border border-secondary-muted bg-bg-main text-text-muted hover:text-primary-accent hover:bg-secondary-muted/50 transition-all duration-200"
-              aria-label="Close"
+              className="w-8 h-8 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex items-center justify-center transition-colors cursor-pointer"
+              aria-label="Close modal"
             >
-              <X size={16} />
+              <X size={18} />
             </button>
           </div>
         </div>
 
-        <div className="relative bg-bg-main flex items-center justify-center p-6 md:p-10"
-          style={{ minHeight: '320px' }}
-        >
+        {/* Certificate Image View */}
+        <div className="relative bg-[var(--bg-page)] flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-y-auto">
           <img
             src={item.image}
-            alt={item.title}
-            className="max-w-full max-h-[62vh] object-contain rounded-lg"
-            style={{ boxShadow: `0 0 60px ${item.accent}25` }}
+            alt={`${item.title} certificate`}
+            className="max-w-full max-h-[58vh] object-contain rounded-lg border border-[var(--border-subtle)] shadow-lg"
           />
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 px-5 py-3 border-t border-secondary-muted bg-bg-main">
-          <span className="flex items-center gap-1.5 text-[11px] text-slate-500">
-            <Calendar size={11} />{item.date}
-          </span>
-          <span className="flex items-center gap-1.5 text-[11px] text-slate-500">
-            <Clock size={11} />{item.duration}
-          </span>
-          <span
-            className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border"
-            style={{ color: item.accent, borderColor: `${item.accent}35`, background: `${item.accent}12` }}
-          >
-            {item.issuer}
-          </span>
-          <p className="hidden sm:block text-[11px] text-slate-600 ml-auto max-w-xs line-clamp-1">
+        {/* Modal Footer Metadata */}
+        <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 border-t border-[var(--border-subtle)] bg-[var(--bg-card)] text-xs text-[var(--text-secondary)]">
+          <div className="flex items-center gap-4 flex-wrap">
+            <span className="flex items-center gap-1.5">
+              <Calendar size={13} className="text-[var(--text-muted)]" />
+              <span>{item.date}</span>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Clock size={13} className="text-[var(--text-muted)]" />
+              <span>{item.duration}</span>
+            </span>
+            <span
+              className="px-2 py-0.5 rounded text-[11px] font-mono font-bold uppercase tracking-wider"
+              style={{ background: `${item.accent}20`, color: item.accent }}
+            >
+              {item.issuer}
+            </span>
+          </div>
+
+          <p className="text-xs text-[var(--text-muted)] line-clamp-1 max-w-sm">
             {item.description}
           </p>
         </div>
@@ -169,54 +194,60 @@ function CertCard({ item, onOpen }) {
   return (
     <motion.div
       variants={cardVariants}
-      whileHover={{ scale: 1.03, boxShadow: `0 0 35px ${item.accent}20` }}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.2 }}
       onClick={() => onOpen(item)}
-      className="group flex flex-col bg-bg-surface rounded-xl overflow-hidden border border-secondary-muted hover:border-neon-cyan/40 transition-all duration-300 cursor-pointer shadow-sm"
+      className="group flex flex-col rounded-2xl overflow-hidden border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--border-strong)] transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md"
     >
-      <div className="relative w-full bg-secondary-muted/20 overflow-hidden" style={{ aspectRatio: '16/10' }}>
+      {/* Thumbnail with overlay */}
+      <div className="relative w-full bg-[var(--bg-card)] overflow-hidden" style={{ aspectRatio: '16/10' }}>
         <img
           src={item.image}
           alt={item.title}
-          className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-500 ease-out"
+          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
           loading="lazy"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-surface/90 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-surface)]/95 via-transparent to-transparent" />
 
-        <div className="absolute inset-0 flex items-center justify-center bg-bg-main/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px]">
-          <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-bg-surface border border-secondary-muted text-primary-accent text-xs font-semibold tracking-wide shadow-sm">
-            <ZoomIn size={15} />
-            View Certificate
+        {/* Hover Zoom pill */}
+        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 backdrop-blur-[2px]">
+          <div className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-strong)] text-[var(--text-primary)] text-xs font-semibold shadow-lg">
+            <ZoomIn size={14} />
+            <span>View Full Certificate</span>
           </div>
         </div>
 
+        {/* Issuer Tag */}
         <div
-          className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          style={{ background: `linear-gradient(90deg, transparent, ${item.accent}, transparent)` }}
-        />
-
-        <div
-          className="absolute top-3 right-3 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border backdrop-blur-sm"
-          style={{ color: item.accent, borderColor: `${item.accent}45`, background: `${item.accent}18` }}
+          className="absolute top-3 right-3 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider border backdrop-blur-sm shadow-sm"
+          style={{ color: item.accent, borderColor: `${item.accent}50`, background: `${item.accent}15` }}
         >
           {item.issuer}
         </div>
       </div>
 
-      <div className="px-4 py-3.5 border-t border-secondary-muted flex flex-col gap-1">
-        <h3 className="text-sm font-bold text-primary-accent group-hover:text-neon-cyan transition-colors duration-300 leading-snug">
-          {item.title}
-        </h3>
-        <p className="text-[11px] font-semibold" style={{ color: item.accent }}>
-          {item.subtitle}
-        </p>
-        <div className="flex items-center justify-between mt-1.5">
-          <div className="flex items-center gap-3 text-[10px] text-slate-500">
-            <span className="flex items-center gap-1"><Calendar size={10} />{item.date}</span>
-            <span className="flex items-center gap-1"><Clock size={10} />{item.duration}</span>
+      {/* Card Body */}
+      <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 border-t border-[var(--border-subtle)]">
+        <div>
+          <h3 className="text-base font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors leading-snug">
+            {item.title}
+          </h3>
+          <p className="text-xs font-mono font-medium mt-1" style={{ color: item.accent }}>
+            {item.subtitle}
+          </p>
+          <p className="text-xs text-[var(--text-secondary)] mt-2 line-clamp-2 leading-relaxed">
+            {item.description}
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between mt-4 pt-3 border-t border-[var(--border-subtle)] text-[11px] text-[var(--text-muted)] font-mono">
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1"><Calendar size={11} />{item.date}</span>
+            <span className="flex items-center gap-1"><Clock size={11} />{item.duration}</span>
           </div>
-          <div className="flex items-center gap-1 text-[10px] font-bold" style={{ color: item.accent }}>
-            <Award size={11} />
+          <div className="flex items-center gap-1 font-semibold text-emerald-400">
+            <CheckCircle2 size={12} />
             <span>Verified</span>
           </div>
         </div>
@@ -227,33 +258,54 @@ function CertCard({ item, onOpen }) {
 
 function Certifications() {
   const [selected, setSelected] = useState(null)
+  const [filter, setFilter] = useState('all')
+
+  const filterTabs = [
+    { id: 'all', label: 'All Certifications' },
+    { id: 'alx', label: 'ALX Africa' },
+    { id: 'udacity', label: 'Udacity' },
+    { id: 'huawei', label: 'Huawei' }
+  ]
+
+  const filteredItems = filter === 'all'
+    ? items
+    : items.filter(item => item.issuerCategory === filter)
 
   return (
-    <section id="certifications" className="py-24 md:py-36 bg-bg-main border-t border-secondary-muted relative overflow-hidden">
-      <div
-        className="absolute inset-0 opacity-[0.05] pointer-events-none"
-        style={{
-          backgroundImage: 'linear-gradient(rgba(0,242,254,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,242,254,0.5) 1px, transparent 1px)',
-          backgroundSize: '60px 60px'
-        }}
-      />
-
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-20"
-        >
-          <h2 className="text-4xl md:text-5xl font-extrabold text-primary-accent tracking-tight inline-block mb-3">
-            Certifications<span className="text-neon-cyan">.</span>
+    <section id="certifications" className="py-24 md:py-32 bg-[var(--bg-page)] border-t border-[var(--border-subtle)] relative overflow-hidden">
+      <div className="max-w-6xl mx-auto px-5 sm:px-6 relative z-10">
+        
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-xs font-mono text-[var(--accent-cyan)] mb-3">
+            <span>// Credentials</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] tracking-tight">
+            Verified Certifications<span className="text-[var(--accent-cyan)] font-mono">.</span>
           </h2>
-          <p className="text-text-muted text-sm md:text-base font-normal max-w-xl mx-auto">
-            Verified credentials from industry-leading programs — click any card to view the full certificate.
+          <p className="mt-3 text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
+            Credentials awarded through competitive programs and rigorous software engineering curricula. Click any certificate to inspect full details and verify validity.
           </p>
-        </motion.div>
+        </div>
 
+        {/* Filter Tabs */}
+        <div className="flex items-center justify-center gap-2 flex-wrap mb-10">
+          {filterTabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setFilter(tab.id)}
+              className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer ${
+                filter === tab.id
+                  ? 'bg-[var(--accent-cyan)] text-white font-semibold shadow-sm shadow-cyan-500/20'
+                  : 'bg-[var(--bg-surface)] text-[var(--text-secondary)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] hover:text-[var(--text-primary)]'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Cards Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -261,12 +313,13 @@ function Certifications() {
           viewport={{ once: true, amount: 0.05 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {items.map((item, index) => (
-            <CertCard key={index} item={item} onOpen={setSelected} />
+          {filteredItems.map((item) => (
+            <CertCard key={item.id} item={item} onOpen={setSelected} />
           ))}
         </motion.div>
       </div>
 
+      {/* High-Resolution Modal */}
       <AnimatePresence>
         {selected && <CertModal item={selected} onClose={() => setSelected(null)} />}
       </AnimatePresence>

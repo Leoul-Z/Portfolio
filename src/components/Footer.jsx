@@ -1,156 +1,213 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, ArrowUpRight } from 'lucide-react'
+import { Mail, ArrowUpRight, Copy, Check, ArrowUp, Send } from 'lucide-react'
 import { GithubIcon, LinkedinIcon, TelegramIcon, LeetcodeIcon } from './Icons'
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+    transition: { staggerChildren: 0.1, delayChildren: 0.15 }
   }
 }
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } }
 }
 
 function Footer() {
+  const [copied, setCopied] = useState(false)
+  const emailAddress = 'leoulzerihun06@gmail.com'
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(emailAddress)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2200)
+  }
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const contactLinks = [
     {
       name: 'LinkedIn',
-      href: 'https://linkedin.com/in/leoul-zerihun-7a4414347',
-      icon: <LinkedinIcon size={20} />,
+      href: 'https://linkedin.com/in/leoul-zerihun',
+      handle: 'leoul-zerihun',
+      icon: LinkedinIcon,
       accent: '#0A66C2',
-      description: 'Connect professionally'
+      tag: 'Professional Network'
     },
     {
       name: 'GitHub',
       href: 'https://github.com/Leoul-Z',
-      icon: <GithubIcon size={20} />,
-      accent: '#0F172A',
-      description: 'See my code & projects'
+      handle: 'Leoul-Z',
+      icon: GithubIcon,
+      accent: '#0EA5E9',
+      tag: 'Code & Repositories'
     },
     {
       name: 'Telegram',
-      href: 'https://t.me/leoniazz',
-      icon: <TelegramIcon size={20} />,
+      href: 'https://t.me/chris_SMRJN',
+      handle: '@chris_SMRJN',
+      icon: TelegramIcon,
       accent: '#229ED9',
-      description: '@chris_SMRJN'
+      tag: 'Direct Messaging'
     },
     {
       name: 'LeetCode',
       href: 'https://leetcode.com/u/Nasi4Z',
-      icon: <LeetcodeIcon size={20} />,
+      handle: 'u/Nasi4Z',
+      icon: LeetcodeIcon,
       accent: '#FFA116',
-      description: 'u/Nasi4Z'
-    },
-    {
-      name: 'E-mail',
-      href: 'mailto:leoulzerihun06@gmail.com',
-      icon: <Mail size={20} />,
-      accent: '#00F2FE',
-      description: 'leoulzerihun06@gmail.com'
+      tag: 'Algorithms & Problem Solving'
     }
   ]
 
   return (
-    <footer id="contact" className="py-24 md:py-32 relative bg-bg-main border-t border-secondary-muted overflow-hidden">
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-neon-cyan/[0.05] blur-[100px] pointer-events-none" />
+    <footer id="contact" className="py-24 md:py-32 relative bg-[var(--bg-page)] border-t border-[var(--border-subtle)] overflow-hidden">
+      
+      {/* Ambient bottom glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[250px] rounded-full bg-cyan-500/[0.04] blur-[120px] pointer-events-none" />
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8 }}
-        className="max-w-4xl mx-auto px-6 flex flex-col items-center relative z-10"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-extrabold text-primary-accent tracking-tight inline-block mb-3">
-            Contact<span className="text-neon-cyan">.</span>
+      <div className="max-w-6xl mx-auto px-5 sm:px-6 relative z-10">
+        
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-xs font-mono text-[var(--accent-cyan)] mb-3">
+            <span>// Contact &amp; Connect</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] tracking-tight">
+            Let's Build Something Together<span className="text-[var(--accent-cyan)] font-mono">.</span>
           </h2>
-          <p className="text-text-muted text-sm md:text-base font-normal">
-            Let's work together — reach out on any platform
+          <p className="mt-3 text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
+            I am currently open to Software Engineering opportunities, internships, and technical collaborations. Feel free to reach out directly.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl mb-24"
-        >
-          {contactLinks.map((link, index) => (
-            <motion.a
-              key={index}
-              href={link.href}
-              target="_blank"
-              rel="noreferrer"
-              variants={cardVariants}
-              whileHover={{
-                scale: 1.025,
-                boxShadow: `0 0 25px ${link.accent}20`
-              }}
-              whileTap={{ scale: 0.98 }}
-              className="group flex items-center justify-between p-5 rounded-xl border border-secondary-muted bg-bg-surface hover:border-neon-cyan/40 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md"
-            >
-              <div className="flex items-center gap-4">
-                <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center border border-secondary-muted bg-bg-main transition-all duration-300 group-hover:border-neon-cyan/30"
-                  style={{ '--link-accent': link.accent }}
-                >
-                  <span
-                    className="text-text-muted group-hover:text-[var(--link-accent)] transition-colors duration-300"
-                    style={{ '--link-accent': link.accent }}
-                  >
-                    {link.icon}
-                  </span>
-                </div>
-
-                <div>
-                  <span className="block text-sm font-semibold text-primary-accent tracking-wide">
-                    {link.name}
-                  </span>
-                  <span className="block text-[11px] text-slate-500 mt-0.5">
-                    {link.description}
-                  </span>
-                </div>
+        {/* Contact Layout: Email Hero Card + Social Channels */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-20">
+          
+          {/* Main Direct Email Action Card (6 cols) */}
+          <div className="lg:col-span-6 p-6 sm:p-8 rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] flex flex-col justify-between shadow-sm">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[var(--accent-cyan)] mb-3">
+                <Mail size={16} />
+                <span>Primary Channel</span>
               </div>
+              
+              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-2">
+                Direct Email Communication
+              </h3>
+              
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-6">
+                Have a question, opportunity, or project proposal? Send an email directly to my inbox or copy the address below.
+              </p>
 
-              <motion.div
-                whileHover={{ x: 3, y: -3 }}
-                transition={{ type: 'spring', stiffness: 400 }}
+              {/* Email Box with One-Click Copy */}
+              <div className="p-3.5 sm:p-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-card)] flex items-center justify-between gap-3 mb-6">
+                <span className="font-mono text-xs sm:text-sm text-[var(--text-primary)] truncate font-medium">
+                  {emailAddress}
+                </span>
+
+                <button
+                  onClick={handleCopyEmail}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--border-subtle)] text-[var(--text-primary)] transition-all cursor-pointer shrink-0"
+                  aria-label="Copy email address"
+                >
+                  {copied ? (
+                    <>
+                      <Check size={13} className="text-emerald-400" />
+                      <span className="text-emerald-400">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={13} />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Direct Send Email CTA */}
+            <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
+              <span className="text-xs text-[var(--text-muted)]">Typical response time: &lt; 24h</span>
+              <a
+                href={`mailto:${emailAddress}`}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--accent-cyan)] text-white hover:opacity-90 font-semibold text-xs transition-opacity cursor-pointer shadow-sm"
               >
-                <ArrowUpRight
-                  size={17}
-                  className="text-slate-600 group-hover:text-neon-cyan transition-colors duration-300"
-                />
-              </motion.div>
-            </motion.a>
-          ))}
-        </motion.div>
+                <span>Compose Email</span>
+                <Send size={13} />
+              </a>
+            </div>
+          </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="w-full text-center border-t border-secondary-muted pt-10"
-        >
-          <p className="text-xs md:text-sm text-slate-500 font-medium">
-            © 2026 Leoul Zerihun — Built with{' '}
-            <span className="text-neon-cyan">React</span> &{' '}
-            <span className="text-neon-cyan">Tailwind CSS</span>
+          {/* Social Channels 2x2 Grid (6 cols) */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4"
+          >
+            {contactLinks.map((link) => {
+              const Icon = link.icon
+              return (
+                <motion.a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  variants={cardVariants}
+                  whileHover={{ y: -3 }}
+                  transition={{ duration: 0.2 }}
+                  className="group p-5 rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--border-strong)] flex flex-col justify-between transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="w-10 h-10 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] flex items-center justify-center text-[var(--text-secondary)] group-hover:text-[var(--accent-cyan)] group-hover:border-[var(--accent-cyan)]/40 transition-colors">
+                        <Icon size={20} />
+                      </div>
+                      <ArrowUpRight size={16} className="text-[var(--text-muted)] group-hover:text-[var(--accent-cyan)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                    </div>
+
+                    <h4 className="text-base font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
+                      {link.name}
+                    </h4>
+                    <span className="text-xs text-[var(--text-muted)] block mt-0.5 font-mono">
+                      {link.handle}
+                    </span>
+                  </div>
+
+                  <span className="text-[11px] font-mono text-[var(--text-secondary)] mt-4 pt-3 border-t border-[var(--border-subtle)] block">
+                    {link.tag}
+                  </span>
+                </motion.a>
+              )
+            })}
+          </motion.div>
+
+        </div>
+
+        {/* Footer Bottom Bar: Copyright & Back To Top */}
+        <div className="pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-muted)]">
+          <p className="font-mono">
+            © 2026 Leoul Zerihun — Built with <span className="text-[var(--accent-cyan)]">React 19</span>, <span className="text-[var(--accent-cyan)]">Tailwind CSS</span> &amp; <span className="text-[var(--accent-cyan)]">Framer Motion</span>
           </p>
-        </motion.div>
-      </motion.div>
+
+          <button
+            onClick={scrollToTop}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+            aria-label="Back to top"
+          >
+            <span>Back to top</span>
+            <ArrowUp size={14} />
+          </button>
+        </div>
+
+      </div>
     </footer>
   )
 }

@@ -1,29 +1,125 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+@custom-variant mobile (@media (max-width: 768px));
+
+:root {
+  /* Default: Dark Mode (OLED / Deep Slate) */
+  --bg-page: #0B0F19;
+  --bg-surface: #111827;
+  --bg-card: #151D2E;
+  --bg-card-hover: #1E293B;
+  --border-subtle: #1F293D;
+  --border-strong: #334155;
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --accent-emerald: #10B981;
+  --accent-cyan: #06B6D4;
+  --accent-blue: #3B82F6;
+  --accent-indigo: #6366F1;
+  --glow-color: rgba(6, 182, 212, 0.15);
+
+  /* Legacy mappings for backward compatibility */
+  --color-bg-main: var(--bg-page);
+  --color-bg-surface: var(--bg-surface);
+  --color-primary-accent: var(--text-primary);
+  --color-secondary-muted: var(--border-subtle);
+  --color-text-main: var(--text-primary);
+  --color-text-muted: var(--text-secondary);
+  --color-neon-cyan: var(--accent-cyan);
+}
+
+[data-theme="light"], .light {
+  /* Clean high-contrast Light Mode */
+  --bg-page: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F1F5F9;
+  --border-subtle: #E2E8F0;
+  --border-strong: #CBD5E1;
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --accent-emerald: #059669;
+  --accent-cyan: #0284C7;
+  --accent-blue: #2563EB;
+  --accent-indigo: #4F46E5;
+  --glow-color: rgba(2, 132, 199, 0.1);
+
+  /* Legacy mappings */
+  --color-bg-main: var(--bg-page);
+  --color-bg-surface: var(--bg-surface);
+  --color-primary-accent: var(--text-primary);
+  --color-secondary-muted: var(--border-subtle);
+  --color-text-main: var(--text-primary);
+  --color-text-muted: var(--text-secondary);
+  --color-neon-cyan: var(--accent-cyan);
+}
+
 @theme {
-  --color-bg-main: #F8F9FF;
-  --color-bg-surface: #FFFFFF;
-  --color-primary-accent: #0F172A;
-  --color-secondary-muted: #CBDBF5;
-  --color-text-main: #0F172A;
-  --color-text-muted: #64748B;
-  --color-neon-cyan: #0284C7; /* Adjusted to stand out on light bg */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --color-bg-page: var(--bg-page);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-card: var(--bg-card);
+  --color-bg-card-hover: var(--bg-card-hover);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-txt-primary: var(--text-primary);
+  --color-txt-secondary: var(--text-secondary);
+  --color-txt-muted: var(--text-muted);
+  --color-accent-emerald: var(--accent-emerald);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-indigo: var(--accent-indigo);
+
+  --color-bg-main: var(--color-bg-main);
+  --color-primary-accent: var(--color-primary-accent);
+  --color-secondary-muted: var(--color-secondary-muted);
+  --color-text-main: var(--color-text-main);
+  --color-neon-cyan: var(--color-neon-cyan);
+
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    background-color: #F8F9FF;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
   
   body {
     font-family: var(--font-sans);
-    background-color: #F8F9FF;
-    color: #0F172A;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
     overflow-x: hidden;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
+  /* Accessibility visible focus */
+  :focus-visible {
+    outline: 2px solid var(--accent-cyan);
+    outline-offset: 2px;
+  }
+}
+
+/* Background Grid Pattern */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+[data-theme="light"] .bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
 }
 
 /* Custom Utilities and Animations */
@@ -40,29 +136,32 @@
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee 32s linear infinite;
+  animation: marquee 35s linear infinite;
 }
 
 .animate-marquee-reverse {
   display: flex;
   width: max-content;
-  animation: marquee-reverse 38s linear infinite;
+  animation: marquee-reverse 40s linear infinite;
 }
 
-/* Pause marquee on hover of parent */
 .animate-marquee:hover,
 .animate-marquee-reverse:hover {
   animation-play-state: paused;
 }
 
-/* Section fade-in helper */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.fade-up {
-  animation: fadeUp 0.7s ease-out both;
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-reverse {
+    animation: none;
+    transform: none;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Scrollbar styling */
@@ -70,12 +169,17 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #F8F9FF;
+  background: var(--bg-page);
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBDBF5;
+  background: var(--border-strong);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: var(--accent-cyan);
+}
+
+/* Glow utility */
+.glow-subtle {
+  box-shadow: 0 0 25px var(--glow-color);
 }

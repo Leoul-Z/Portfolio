@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { Globe } from 'lucide-react'
+import { Globe, ArrowUpRight } from 'lucide-react'
+import { GithubIcon } from './Icons'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -10,7 +11,7 @@ const containerVariants = {
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
 }
 
@@ -18,121 +19,165 @@ function Project() {
   const projects = [
     {
       title: 'Hulu Rent',
-      date: '2026',
-      tags: ['React', 'Node.js', 'Express', 'Tailwind CSS', 'PostgreSQL'],
-      description: 'A comprehensive property rental platform designed to streamline the process of finding and listing properties. It features advanced search filters, secure user authentication, and an intuitive property management interface for owners.',
+      badge: 'Full-Stack Rental Platform',
+      year: '2026',
+      tags: ['React', 'Node.js', 'Express', 'PostgreSQL', 'Tailwind CSS'],
+      description: 'A comprehensive property rental and discovery web application designed to simplify listing and finding properties. Built with advanced multi-parameter search filters, secure authentication, role separation, and responsive property management dashboards.',
+      highlights: [
+        'Advanced search & filtering engine for rental properties',
+        'Secure JWT authentication & user role permissions',
+        'Normalized PostgreSQL database schema for properties, bookings, and owners',
+        'Clean responsive UI engineered with React and Tailwind CSS'
+      ],
       github: 'https://github.com/HuluRent/HuluRent',
       website: 'https://hulu-rent-xqpm.vercel.app/'
     },
     {
       title: 'DeskFlow',
-      date: '2026',
-      tags: ['React', 'Node.js', 'Express', 'Tailwind CSS', 'PostgreSQL'],
-      description: 'A full-stack helpdesk ticketing system with role-based workflows for employees, technical staff, and managers — built with Express, React, PostgreSQL (Prisma), and JWT authentication.',
+      badge: 'Enterprise Helpdesk System',
+      year: '2026',
+      tags: ['React', 'Node.js', 'Express', 'Prisma', 'PostgreSQL', 'JWT'],
+      description: 'A robust multi-role ticketing and support system designed to streamline internal operations. Supports complete lifecycle management for tickets across employees, technical support staff, and administrative managers.',
+      highlights: [
+        'Role-Based Access Control (RBAC) across three distinct user tiers',
+        'Database modeling with Prisma ORM and PostgreSQL',
+        'Automated ticket status tracking, priority flags, and assignment queues',
+        'Secure token-based authorization and session management'
+      ],
       github: 'https://github.com/Leoul-Z/Helpdesk',
       website: 'https://helpdesk-one-rho.vercel.app/'
     },
     {
       title: 'Petify',
-      date: '2026',
-      tags: ['React', 'PHP', 'Tailwind CSS', 'PostgreSQL'],
-      description: 'A dynamic pet shop web application built with a React frontend and a PHP backend. Features product catalog browsing with custom category filtering, shopping cart checkout, and service appointment booking.',
+      badge: 'E-Commerce & Booking App',
+      year: '2026',
+      tags: ['React', 'PHP', 'PostgreSQL', 'REST API', 'Tailwind CSS'],
+      description: 'A dynamic pet shop platform featuring a decoupled architecture with a modern React frontend and a structured PHP RESTful backend. Provides product browsing, shopping cart workflows, and veterinary/grooming service appointment bookings.',
+      highlights: [
+        'Decoupled architecture: React UI communicating with PHP backend endpoints',
+        'Dynamic catalog browsing with category-based filtering',
+        'Interactive shopping cart state management & checkout simulation',
+        'Service appointment reservation booking engine'
+      ],
       github: 'https://github.com/Leoul-Z/Petify',
       website: 'https://petify-plum.vercel.app/'
     }
   ]
 
   return (
-    <section id="projects" className="py-24 md:py-36 relative bg-bg-main border-t border-secondary-muted">
+    <section id="projects" className="py-24 md:py-32 relative bg-[var(--bg-page)] border-t border-[var(--border-subtle)]">
       <motion.div
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
-        className="max-w-5xl mx-auto px-6"
+        className="max-w-6xl mx-auto px-5 sm:px-6"
       >
-        <motion.div variants={itemVariants} className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-primary-accent tracking-tight inline-block">
-            Projects<span className="text-neon-cyan">.</span>
+        {/* Section Header */}
+        <motion.div variants={itemVariants} className="text-center max-w-2xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[var(--border-subtle)] bg-[var(--bg-surface)] text-xs font-mono text-[var(--accent-cyan)] mb-3">
+            <span>// Production Work</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] tracking-tight">
+            Featured Projects<span className="text-[var(--accent-cyan)] font-mono">.</span>
           </h2>
+          <p className="mt-3 text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
+            Real-world full-stack applications showcasing end-to-end development, relational database modeling, and performant user experiences.
+          </p>
         </motion.div>
 
-        <div className="flex flex-col gap-6">
-          {projects.map((project, index) => (
+        {/* Project Cards Stack */}
+        <div className="flex flex-col gap-8">
+          {projects.map((project) => (
             <motion.div
-              key={index}
+              key={project.title}
               variants={itemVariants}
-              whileHover={{
-                scale: 1.015,
-                boxShadow: '0 0 40px rgba(0,242,254,0.07)'
-              }}
-              className="group block p-6 md:p-8 rounded-xl border border-secondary-muted bg-bg-surface hover:border-neon-cyan/40 hover:bg-neon-cyan/5 transition-all duration-300 shadow-sm hover:shadow-md"
+              whileHover={{ y: -3 }}
+              transition={{ duration: 0.25 }}
+              className="group rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:border-[var(--border-strong)] p-6 sm:p-8 md:p-9 transition-all duration-300 shadow-sm hover:shadow-lg"
             >
-              <div className="flex flex-col md:grid md:grid-cols-[200px_1fr] gap-4 md:gap-8 items-start">
+              <div className="flex flex-col lg:flex-row gap-8 justify-between">
+                
+                {/* Project Info Column */}
+                <div className="flex-1 flex flex-col justify-between">
+                  <div>
+                    {/* Header: Title, Category & Year */}
+                    <div className="flex flex-wrap items-center gap-3 mb-3">
+                      <h3 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
+                        {project.title}
+                      </h3>
+                      <span className="px-2.5 py-1 rounded-md text-xs font-mono font-semibold bg-[var(--border-subtle)] text-[var(--accent-cyan)]">
+                        {project.badge}
+                      </span>
+                      <span className="text-xs font-mono text-[var(--text-muted)] ml-auto">
+                        {project.year}
+                      </span>
+                    </div>
 
-                <div className="flex md:flex-col gap-3 md:gap-2 items-center md:items-start">
-                  <span className="text-neon-cyan text-xs md:text-sm font-semibold tracking-wider">{project.date}</span>
-                </div>
+                    {/* Summary Description */}
+                    <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-6 font-normal">
+                      {project.description}
+                    </p>
 
-                <div className="flex flex-col gap-3 w-full">
-                  <div className="flex items-center justify-between gap-4">
-                    <h3 className="text-xl md:text-2xl font-bold text-primary-accent transition-colors duration-300 flex items-center gap-2">
-                      {project.title}
-                    </h3>
+                    {/* Key Engineering Highlights */}
+                    <div className="mb-6">
+                      <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] block mb-2.5">
+                        Key Architectural Highlights:
+                      </span>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-[var(--text-secondary)]">
+                        {project.highlights.map((h, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="text-[var(--accent-cyan)] font-mono text-sm leading-none mt-1">▸</span>
+                            <span>{h}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
 
-                    <div className="hidden sm:flex flex-wrap gap-2 shrink-0">
-                      {project.tags.map((tag, tIndex) => (
+                  {/* Bottom Strip: Tags & Action Links */}
+                  <div className="pt-6 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    {/* Tech Badges */}
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
                         <span
-                          key={tIndex}
-                          className="px-2.5 py-1 text-[10px] uppercase font-bold tracking-wider rounded-md border border-secondary-muted bg-bg-main text-text-muted"
+                          key={tag}
+                          className="px-2.5 py-1 text-xs font-mono font-medium rounded-md border border-[var(--border-subtle)] bg-[var(--bg-card)] text-[var(--text-secondary)]"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
+
+                    {/* Action Links */}
+                    <div className="flex items-center gap-3 shrink-0">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold border border-[var(--border-subtle)] bg-[var(--bg-surface)] hover:bg-[var(--bg-card-hover)] text-[var(--text-primary)] hover:border-[var(--accent-cyan)] transition-all duration-200 cursor-pointer"
+                        >
+                          <GithubIcon size={15} />
+                          <span>Source Code</span>
+                        </a>
+                      )}
+
+                      {project.website && (
+                        <a
+                          href={project.website}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--text-primary)] text-[var(--bg-page)] hover:bg-[var(--accent-cyan)] hover:text-white transition-all duration-200 shadow-sm cursor-pointer"
+                        >
+                          <Globe size={15} />
+                          <span>Live Demo</span>
+                          <ArrowUpRight size={13} />
+                        </a>
+                      )}
+                    </div>
                   </div>
 
-                  <p className="text-text-muted leading-relaxed text-sm md:text-base">{project.description}</p>
-
-                  <div className="flex sm:hidden flex-wrap gap-2 mt-1">
-                    {project.tags.map((tag, tIndex) => (
-                      <span
-                        key={tIndex}
-                        className="px-2.5 py-1 text-[10px] uppercase font-bold tracking-wider rounded-md border border-secondary-muted bg-bg-main text-text-muted"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center gap-4 mt-2">
-                    {project.github && (
-                      <a 
-                        href={project.github}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-neon-cyan transition-colors duration-300"
-                      >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-                          <path d="M9 18c-4.51 2-5-2-7-2" />
-                        </svg>
-                        <span>GitHub</span>
-                      </a>
-                    )}
-                    
-                    {project.website && (
-                      <a 
-                        href={project.website}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-neon-cyan transition-colors duration-300"
-                      >
-                        <Globe size={16} />
-                        <span>Live Website</span>
-                      </a>
-                    )}
-                  </div>
                 </div>
 
               </div>
