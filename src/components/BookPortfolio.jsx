@@ -19,6 +19,15 @@ const CHAPTERS = [
   { id: 'O', label: 'Off duty', title: 'Off Duty', page: '18', color: '#6fa468', activeBg: 'bg-[#6fa468]', activeText: 'text-[#14290f]', tabBg: 'bg-[#9fc49a]', textDark: 'text-[#1c3a19]' },
 ];
 
+const CHAPTER_SUBPAGES = {
+  A: { page1: 'Author Card', page2: 'Contents & Reach' },
+  E: { page1: 'Experience', page2: 'Certifications' },
+  P: { page1: 'Projects 001–002', page2: 'Projects 003–004' },
+  H: { page1: 'HCK 001 M-PESA', page2: 'HCK 002 AWS' },
+  S: { page1: 'Languages & Stack', page2: 'Infra & Deploy' },
+  O: { page1: 'Side A · Music', page2: 'Side B · Football' },
+};
+
 const CERT_DATA = [
   {
     id: 'forage-yc',
@@ -110,6 +119,7 @@ function playPageFlipSound() {
 
 export default function BookPortfolio() {
   const [activeChapter, setActiveChapter] = useState('A');
+  const [mobilePage, setMobilePage] = useState(1);
   const [direction, setDirection] = useState(1);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [activeCert, setActiveCert] = useState(null);
@@ -117,25 +127,38 @@ export default function BookPortfolio() {
 
   const currentIndex = CHAPTERS.findIndex((c) => c.id === activeChapter);
 
-  const goToChapter = useCallback((targetId) => {
-    if (targetId === activeChapter) return;
+  const goToChapter = useCallback((targetId, targetPage = 1) => {
+    if (targetId === activeChapter && mobilePage === targetPage) return;
     const targetIdx = CHAPTERS.findIndex((c) => c.id === targetId);
-    setDirection(targetIdx > currentIndex ? 1 : -1);
+    setDirection(targetIdx !== currentIndex ? (targetIdx > currentIndex ? 1 : -1) : (targetPage > mobilePage ? 1 : -1));
     if (soundEnabled) playPageFlipSound();
     setActiveChapter(targetId);
-  }, [activeChapter, currentIndex, soundEnabled]);
+    setMobilePage(targetPage);
+  }, [activeChapter, currentIndex, mobilePage, soundEnabled]);
 
   const goNext = useCallback(() => {
-    if (currentIndex < CHAPTERS.length - 1) {
-      goToChapter(CHAPTERS[currentIndex + 1].id);
+    if (window.innerWidth <= 1024 && mobilePage === 1) {
+      if (soundEnabled) playPageFlipSound();
+      setDirection(1);
+      setMobilePage(2);
+      return;
     }
-  }, [currentIndex, goToChapter]);
+    if (currentIndex < CHAPTERS.length - 1) {
+      goToChapter(CHAPTERS[currentIndex + 1].id, 1);
+    }
+  }, [currentIndex, goToChapter, mobilePage, soundEnabled]);
 
   const goPrev = useCallback(() => {
-    if (currentIndex > 0) {
-      goToChapter(CHAPTERS[currentIndex - 1].id);
+    if (window.innerWidth <= 1024 && mobilePage === 2) {
+      if (soundEnabled) playPageFlipSound();
+      setDirection(-1);
+      setMobilePage(1);
+      return;
     }
-  }, [currentIndex, goToChapter]);
+    if (currentIndex > 0) {
+      goToChapter(CHAPTERS[currentIndex - 1].id, window.innerWidth <= 1024 ? 2 : 1);
+    }
+  }, [currentIndex, goToChapter, mobilePage, soundEnabled]);
 
   // Keyboard navigation: Left / Right arrows
   useEffect(() => {
@@ -278,7 +301,7 @@ export default function BookPortfolio() {
             return (
               <button
                 key={ch.id}
-                onClick={() => goToChapter(ch.id)}
+                onClick={() => goToChapter(ch.id, 1)}
                 className={`flex flex-1 min-w-[52px] items-center justify-center gap-1 rounded-[3px] px-2 py-1.5 transition-all text-[11px] font-['IBM_Plex_Mono'] font-[600] whitespace-nowrap cursor-pointer ${
                   isActive ? 'bg-[#c0392b] text-white shadow-sm' : 'text-[#3a3a36] hover:bg-white'
                 }`}
@@ -290,12 +313,50 @@ export default function BookPortfolio() {
           })}
         </div>
 
+        {/* Mobile Subpage Switcher Bar (Only visible on screens <= 1024px) */}
+        <div className="hidden mobile:flex w-full items-center justify-between gap-1.5 rounded-[4px] border border-solid border-[#d8cfb8] bg-[#f6f2e6] p-1 shadow-sm">
+          <button
+            onClick={() => {
+              if (mobilePage !== 1) {
+                if (soundEnabled) playPageFlipSound();
+                setDirection(-1);
+                setMobilePage(1);
+              }
+            }}
+            className={`flex-1 py-1.5 px-2 rounded-[3px] text-center font-['IBM_Plex_Mono'] text-[11px] font-[600] transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              mobilePage === 1
+                ? 'bg-[#c0392b] text-white shadow-sm'
+                : 'bg-[#fffdf7] text-[#555550] hover:bg-white border border-[#e2dac6]'
+            }`}
+          >
+            <span className="text-[9px] opacity-80">Page 1:</span>
+            <span className="truncate">{CHAPTER_SUBPAGES[activeChapter].page1}</span>
+          </button>
+          <button
+            onClick={() => {
+              if (mobilePage !== 2) {
+                if (soundEnabled) playPageFlipSound();
+                setDirection(1);
+                setMobilePage(2);
+              }
+            }}
+            className={`flex-1 py-1.5 px-2 rounded-[3px] text-center font-['IBM_Plex_Mono'] text-[11px] font-[600] transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+              mobilePage === 2
+                ? 'bg-[#c0392b] text-white shadow-sm'
+                : 'bg-[#fffdf7] text-[#555550] hover:bg-white border border-[#e2dac6]'
+            }`}
+          >
+            <span className="text-[9px] opacity-80">Page 2:</span>
+            <span className="truncate">{CHAPTER_SUBPAGES[activeChapter].page2}</span>
+          </button>
+        </div>
+
         {/* The Hardcover Book Shell */}
         <div className="flex w-full max-w-[1240px] flex-col items-start relative perspective-book">
           
           {/* Bookmark Ribbon Hanging from the spine */}
           <button
-            onClick={() => goToChapter('A')}
+            onClick={() => goToChapter('A', 1)}
             title="Spine Bookmark Ribbon (Click to open Contents)"
             className="flex h-[56px] w-4 flex-none flex-col items-start absolute left-1/2 -translate-x-1/2 top-[-20px] z-30 mobile:hidden cursor-pointer group"
           >
@@ -337,7 +398,7 @@ export default function BookPortfolio() {
 
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
-                  key={activeChapter}
+                  key={`${activeChapter}-${mobilePage}`}
                   custom={direction}
                   variants={pageVariants}
                   initial="enter"
@@ -349,6 +410,8 @@ export default function BookPortfolio() {
                   {activeChapter === 'A' && (
                     <ChapterAbout 
                       goToChapter={goToChapter} 
+                      mobilePage={mobilePage}
+                      setMobilePage={setMobilePage}
                     />
                   )}
 
@@ -357,6 +420,8 @@ export default function BookPortfolio() {
                     <ChapterExperience 
                       goToChapter={goToChapter} 
                       onOpenCert={setActiveCert}
+                      mobilePage={mobilePage}
+                      setMobilePage={setMobilePage}
                     />
                   )}
 
@@ -364,6 +429,8 @@ export default function BookPortfolio() {
                   {activeChapter === 'P' && (
                     <ChapterProjects 
                       goToChapter={goToChapter} 
+                      mobilePage={mobilePage}
+                      setMobilePage={setMobilePage}
                     />
                   )}
 
@@ -372,6 +439,8 @@ export default function BookPortfolio() {
                     <ChapterHackathons 
                       goToChapter={goToChapter} 
                       onOpenCert={setActiveCert}
+                      mobilePage={mobilePage}
+                      setMobilePage={setMobilePage}
                     />
                   )}
 
@@ -379,6 +448,8 @@ export default function BookPortfolio() {
                   {activeChapter === 'S' && (
                     <ChapterStack 
                       goToChapter={goToChapter} 
+                      mobilePage={mobilePage}
+                      setMobilePage={setMobilePage}
                     />
                   )}
 
@@ -388,6 +459,8 @@ export default function BookPortfolio() {
                       goToChapter={goToChapter} 
                       isVinylSpinning={isVinylSpinning}
                       setIsVinylSpinning={setIsVinylSpinning}
+                      mobilePage={mobilePage}
+                      setMobilePage={setMobilePage}
                     />
                   )}
                 </motion.div>
@@ -561,11 +634,11 @@ export default function BookPortfolio() {
 // ==========================================
 // CHAPTER A: About & Table of Contents
 // ==========================================
-function ChapterAbout({ goToChapter }) {
+function ChapterAbout({ goToChapter, mobilePage = 1, setMobilePage }) {
   return (
     <>
       {/* Left Page (Author Card) */}
-      <article className="flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-t-[3px] mobile:rounded-b-none mobile:px-4 mobile:py-4 mobile:border-b mobile:border-dashed mobile:border-[#d8cfb8] lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-l-[3px] lg:rounded-r-none lg:px-7 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[inset_1px_0px_0px_0px_#e2dac6,-2px_0px_0px_0px_#ede6d3,-4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative">
+      <article className={`${mobilePage === 1 ? 'flex' : 'hidden'} lg:flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-[3px] mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-l-[3px] lg:rounded-r-none lg:px-7 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[inset_1px_0px_0px_0px_#e2dac6,-2px_0px_0px_0px_#ede6d3,-4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative`}>
         <div className="flex w-full items-start bg-[linear-gradient(to_left,#0000002e,#00000010_30%,transparent)] absolute top-0 right-0 bottom-0 pointer-events-none mobile:hidden" />
         
         <div className="flex w-full items-center justify-between pb-1.5">
@@ -665,6 +738,20 @@ function ChapterAbout({ goToChapter }) {
 
         </div>
 
+        {/* Mobile Turn to Page 2 Banner */}
+        <div className="hidden mobile:flex w-full items-center justify-between border-t border-dashed border-[#c7d7ef] pt-2.5 mt-3">
+          <span className="font-['IBM_Plex_Mono'] text-[10px] text-[#8a8a84]">
+            Page 1 of 2
+          </span>
+          <button
+            onClick={() => setMobilePage?.(2)}
+            className="flex items-center gap-1.5 rounded-[3px] bg-[#c0392b] px-3 py-1.5 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-white shadow-sm hover:bg-[#a83226] cursor-pointer transition-colors"
+          >
+            <span>Turn to Contents &amp; Reach</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <div className="flex w-full items-end pt-1 grow">
           <span className="font-['IBM_Plex_Mono'] text-[9px] font-[400] leading-[12px] text-[#8a8a84]">
             i
@@ -673,7 +760,7 @@ function ChapterAbout({ goToChapter }) {
       </article>
 
       {/* Right Page (Contents & Contact) */}
-      <article className="flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-b-[3px] mobile:rounded-t-none mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-r-[3px] lg:rounded-l-none lg:pl-7 lg:pr-10 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[2px_0px_0px_0px_#ede6d3,4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative">
+      <article className={`${mobilePage === 2 ? 'flex' : 'hidden'} lg:flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-[3px] mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-r-[3px] lg:rounded-l-none lg:pl-7 lg:pr-10 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[2px_0px_0px_0px_#ede6d3,4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative`}>
         <div className="flex w-12 items-start bg-[linear-gradient(to_right,#00000033,#00000012_30%,transparent)] absolute top-0 left-0 bottom-0 pointer-events-none mobile:hidden" />
         
         <div className="flex w-full items-center justify-between pb-1">
@@ -891,6 +978,23 @@ function ChapterAbout({ goToChapter }) {
           </div>
         </div>
 
+        {/* Mobile Page 2 Navigation Banner */}
+        <div className="hidden mobile:flex w-full items-center justify-between border-t border-dashed border-[#c7d7ef] pt-2.5 mt-3">
+          <button
+            onClick={() => setMobilePage?.(1)}
+            className="flex items-center gap-1 rounded-[3px] border border-[#c9c6b8] bg-[#f6f3e7] px-2.5 py-1 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-[#3a3a36] shadow-sm hover:bg-white cursor-pointer transition-colors"
+          >
+            <span>← Back to Author Card</span>
+          </button>
+          <button
+            onClick={() => goToChapter('E', 1)}
+            className="flex items-center gap-1.5 rounded-[3px] bg-[#c0392b] px-3 py-1 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-white shadow-sm hover:bg-[#a83226] cursor-pointer transition-colors"
+          >
+            <span>Chapter E (Exp.)</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <div className="flex w-full items-end justify-between pr-4 pt-0.5 gap-4">
           <span className="font-['IBM_Plex_Mono'] text-[8.5px] font-[400] leading-[12px] tracking-wider text-[#8a8a84]">
             pick a tab to turn the page →
@@ -902,7 +1006,7 @@ function ChapterAbout({ goToChapter }) {
 
         {/* Page Curl Corner (Bottom Right) */}
         <button
-          onClick={() => goToChapter('E')}
+          onClick={() => goToChapter('E', 1)}
           title="Turn to Chapter E (Page 1)"
           className="flex h-8 w-8 flex-none items-start rounded-tl-[4px] shadow-[-3px_-3px_5px_0px_#0000001f] absolute right-0 bottom-0 bg-[linear-gradient(315deg,#d8cfb8_50%,#ece5d3_50%,#fbf8f0_100%)] transition-all duration-300 hover:h-11 hover:w-11 cursor-pointer"
         />
@@ -914,11 +1018,11 @@ function ChapterAbout({ goToChapter }) {
 // ==========================================
 // CHAPTER E: Experience & Certifications
 // ==========================================
-function ChapterExperience({ goToChapter, onOpenCert }) {
+function ChapterExperience({ goToChapter, onOpenCert, mobilePage = 1, setMobilePage }) {
   return (
     <>
       {/* Left Page (Experience) */}
-      <article className="flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-t-[3px] mobile:rounded-b-none mobile:px-4 mobile:py-4 mobile:border-b mobile:border-dashed mobile:border-[#d8cfb8] lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-l-[3px] lg:rounded-r-none lg:px-7 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[inset_1px_0px_0px_0px_#e2dac6,-2px_0px_0px_0px_#ede6d3,-4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative">
+      <article className={`${mobilePage === 1 ? 'flex' : 'hidden'} lg:flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-[3px] mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-l-[3px] lg:rounded-r-none lg:px-7 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[inset_1px_0px_0px_0px_#e2dac6,-2px_0px_0px_0px_#ede6d3,-4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative`}>
         <div className="flex w-full items-start bg-[linear-gradient(to_left,#0000002e,#00000010_30%,transparent)] absolute top-0 right-0 bottom-0 pointer-events-none mobile:hidden" />
         
         <div className="flex w-full items-center justify-between pb-1.5">
@@ -1037,9 +1141,23 @@ function ChapterExperience({ goToChapter, onOpenCert }) {
 
         </div>
 
+        {/* Mobile Turn to Page 2 Banner */}
+        <div className="hidden mobile:flex w-full items-center justify-between border-t border-dashed border-[#c7d7ef] pt-2.5 mt-3">
+          <span className="font-['IBM_Plex_Mono'] text-[10px] text-[#8a8a84]">
+            Page 1 of 2
+          </span>
+          <button
+            onClick={() => setMobilePage?.(2)}
+            className="flex items-center gap-1.5 rounded-[3px] bg-[#c0392b] px-3 py-1.5 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-white shadow-sm hover:bg-[#a83226] cursor-pointer transition-colors"
+          >
+            <span>Turn to Certifications</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <div className="flex w-full items-end justify-between pl-8 pt-2 grow gap-4">
           <button
-            onClick={() => goToChapter('A')}
+            onClick={() => goToChapter('A', 1)}
             className="font-['IBM_Plex_Mono'] text-[9.5px] font-[400] leading-[14px] tracking-wider text-[#8a8a84] hover:text-[#c0392b] cursor-pointer"
           >
             ← back to contents
@@ -1051,14 +1169,14 @@ function ChapterExperience({ goToChapter, onOpenCert }) {
 
         {/* Bottom Left Page Curl */}
         <button
-          onClick={() => goToChapter('A')}
+          onClick={() => goToChapter('A', 1)}
           title="Turn back to Contents (Page i)"
           className="flex h-8 w-8 flex-none items-start rounded-tr-[4px] shadow-[3px_-3px_5px_0px_#0000001f] absolute left-0 bottom-0 bg-[linear-gradient(45deg,#d8cfb8_50%,#ece5d3_50%,#fbf8f0_100%)] transition-all duration-300 hover:h-11 hover:w-11 cursor-pointer"
         />
       </article>
 
       {/* Right Page (Certifications) */}
-      <article className="flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-b-[3px] mobile:rounded-t-none mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-r-[3px] lg:rounded-l-none lg:pl-7 lg:pr-10 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[2px_0px_0px_0px_#ede6d3,4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative">
+      <article className={`${mobilePage === 2 ? 'flex' : 'hidden'} lg:flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-[3px] mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-r-[3px] lg:rounded-l-none lg:pl-7 lg:pr-10 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[2px_0px_0px_0px_#ede6d3,4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative`}>
         <div className="flex w-12 items-start bg-[linear-gradient(to_right,#00000033,#00000012_30%,transparent)] absolute top-0 left-0 bottom-0 pointer-events-none mobile:hidden" />
         
         <div className="flex w-full items-center justify-between pb-1.5">
@@ -1116,8 +1234,25 @@ function ChapterExperience({ goToChapter, onOpenCert }) {
           ))}
         </div>
 
+        {/* Mobile Page 2 Navigation Banner */}
+        <div className="hidden mobile:flex w-full items-center justify-between border-t border-dashed border-[#c7d7ef] pt-2.5 mt-3">
+          <button
+            onClick={() => setMobilePage?.(1)}
+            className="flex items-center gap-1 rounded-[3px] border border-[#c9c6b8] bg-[#f6f3e7] px-2.5 py-1 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-[#3a3a36] shadow-sm hover:bg-white cursor-pointer transition-colors"
+          >
+            <span>← Back to Experience</span>
+          </button>
+          <button
+            onClick={() => goToChapter('P', 1)}
+            className="flex items-center gap-1.5 rounded-[3px] bg-[#c0392b] px-3 py-1 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-white shadow-sm hover:bg-[#a83226] cursor-pointer transition-colors"
+          >
+            <span>Chapter P (Projects)</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <button
-          onClick={() => goToChapter('P')}
+          onClick={() => goToChapter('P', 1)}
           className="flex w-full flex-wrap border-b border-dashed border-[#c9c6b8] py-1 items-baseline gap-x-2 gap-y-0.5 mt-2 text-left cursor-pointer hover:bg-[#f3ecdc] transition-colors"
         >
           <span className="font-['IBM_Plex_Mono'] text-[9.5px] font-[500] leading-[14px] tracking-[0.12em] text-[#c0392b] uppercase">
@@ -1136,7 +1271,7 @@ function ChapterExperience({ goToChapter, onOpenCert }) {
 
         {/* Bottom Right Page Curl */}
         <button
-          onClick={() => goToChapter('P')}
+          onClick={() => goToChapter('P', 1)}
           title="Turn to Chapter P (Page 7)"
           className="flex h-8 w-8 flex-none items-start rounded-tl-[4px] shadow-[-3px_-3px_5px_0px_#0000001f] absolute right-0 bottom-0 bg-[linear-gradient(315deg,#d8cfb8_50%,#ece5d3_50%,#fbf8f0_100%)] transition-all duration-300 hover:h-11 hover:w-11 cursor-pointer"
         />
@@ -1148,11 +1283,11 @@ function ChapterExperience({ goToChapter, onOpenCert }) {
 // ==========================================
 // CHAPTER P: Projects
 // ==========================================
-function ChapterProjects({ goToChapter }) {
+function ChapterProjects({ goToChapter, mobilePage = 1, setMobilePage }) {
   return (
     <>
       {/* Left Page (Projects 001 & 002: Hulu Rent & DeskFlow) */}
-      <article className="flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-t-[3px] mobile:rounded-b-none mobile:px-4 mobile:py-4 mobile:border-b mobile:border-dashed mobile:border-[#d8cfb8] lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-l-[3px] lg:rounded-r-none lg:px-7 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[inset_1px_0px_0px_0px_#e2dac6,-2px_0px_0px_0px_#ede6d3,-4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative">
+      <article className={`${mobilePage === 1 ? 'flex' : 'hidden'} lg:flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-[3px] mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-l-[3px] lg:rounded-r-none lg:px-7 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[inset_1px_0px_0px_0px_#e2dac6,-2px_0px_0px_0px_#ede6d3,-4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative`}>
         <div className="flex w-full items-start bg-[linear-gradient(to_left,#0000002e,#00000010_30%,transparent)] absolute top-0 right-0 bottom-0 pointer-events-none mobile:hidden" />
         
         <div className="flex w-full items-center justify-between pb-1.5">
@@ -1274,9 +1409,23 @@ function ChapterProjects({ goToChapter }) {
 
         </div>
 
+        {/* Mobile Turn to Page 2 Banner */}
+        <div className="hidden mobile:flex w-full items-center justify-between border-t border-dashed border-[#c7d7ef] pt-2.5 mt-3">
+          <span className="font-['IBM_Plex_Mono'] text-[10px] text-[#8a8a84]">
+            Page 1 of 2
+          </span>
+          <button
+            onClick={() => setMobilePage?.(2)}
+            className="flex items-center gap-1.5 rounded-[3px] bg-[#c0392b] px-3 py-1.5 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-white shadow-sm hover:bg-[#a83226] cursor-pointer transition-colors"
+          >
+            <span>Turn to Projects 003–004</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <div className="flex w-full items-end justify-between pl-8 pt-2 grow gap-4">
           <button
-            onClick={() => goToChapter('A')}
+            onClick={() => goToChapter('A', 1)}
             className="font-['IBM_Plex_Mono'] text-[9.5px] font-[400] leading-[14px] tracking-wider text-[#8a8a84] hover:text-[#c0392b] cursor-pointer"
           >
             ← back to contents
@@ -1288,14 +1437,14 @@ function ChapterProjects({ goToChapter }) {
 
         {/* Bottom Left Page Curl */}
         <button
-          onClick={() => goToChapter('E')}
+          onClick={() => goToChapter('E', 2)}
           title="Turn back to Chapter E (Page 2)"
           className="flex h-8 w-8 flex-none items-start rounded-tr-[4px] shadow-[3px_-3px_5px_0px_#0000001f] absolute left-0 bottom-0 bg-[linear-gradient(45deg,#d8cfb8_50%,#ece5d3_50%,#fbf8f0_100%)] transition-all duration-300 hover:h-11 hover:w-11 cursor-pointer"
         />
       </article>
 
       {/* Right Page (Projects 003 & 004: Petify & Didactic AI) */}
-      <article className="flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-b-[3px] mobile:rounded-t-none mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-r-[3px] lg:rounded-l-none lg:pl-7 lg:pr-10 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[2px_0px_0px_0px_#ede6d3,4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative">
+      <article className={`${mobilePage === 2 ? 'flex' : 'hidden'} lg:flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-[3px] mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-r-[3px] lg:rounded-l-none lg:pl-7 lg:pr-10 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[2px_0px_0px_0px_#ede6d3,4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative`}>
         <div className="flex w-12 items-start bg-[linear-gradient(to_right,#00000033,#00000012_30%,transparent)] absolute top-0 left-0 bottom-0 pointer-events-none mobile:hidden" />
         
         <div className="flex w-full items-center justify-between pb-1.5">
@@ -1412,8 +1561,25 @@ function ChapterProjects({ goToChapter }) {
 
         </div>
 
+        {/* Mobile Page 2 Navigation Banner */}
+        <div className="hidden mobile:flex w-full items-center justify-between border-t border-dashed border-[#c7d7ef] pt-2.5 mt-3">
+          <button
+            onClick={() => setMobilePage?.(1)}
+            className="flex items-center gap-1 rounded-[3px] border border-[#c9c6b8] bg-[#f6f3e7] px-2.5 py-1 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-[#3a3a36] shadow-sm hover:bg-white cursor-pointer transition-colors"
+          >
+            <span>← Back to Projects 001–002</span>
+          </button>
+          <button
+            onClick={() => goToChapter('H', 1)}
+            className="flex items-center gap-1.5 rounded-[3px] bg-[#c0392b] px-3 py-1 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-white shadow-sm hover:bg-[#a83226] cursor-pointer transition-colors"
+          >
+            <span>Chapter H (Hacks)</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <button
-          onClick={() => goToChapter('H')}
+          onClick={() => goToChapter('H', 1)}
           className="flex w-full items-end justify-between pt-2 grow gap-4 text-left cursor-pointer hover:text-[#c0392b]"
         >
           <span className="font-['IBM_Plex_Mono'] text-[9.5px] font-[400] leading-[14px] tracking-wider text-[#8a8a84]">
@@ -1426,7 +1592,7 @@ function ChapterProjects({ goToChapter }) {
 
         {/* Bottom Right Page Curl */}
         <button
-          onClick={() => goToChapter('H')}
+          onClick={() => goToChapter('H', 1)}
           title="Turn to Chapter H (Page 12)"
           className="flex h-8 w-8 flex-none items-start rounded-tl-[4px] shadow-[-3px_-3px_5px_0px_#0000001f] absolute right-0 bottom-0 bg-[linear-gradient(315deg,#d8cfb8_50%,#ece5d3_50%,#fbf8f0_100%)] transition-all duration-300 hover:h-11 hover:w-11 cursor-pointer"
         />
@@ -1438,11 +1604,11 @@ function ChapterProjects({ goToChapter }) {
 // ==========================================
 // CHAPTER H: Hackathons
 // ==========================================
-function ChapterHackathons({ goToChapter, onOpenCert }) {
+function ChapterHackathons({ goToChapter, onOpenCert, mobilePage = 1, setMobilePage }) {
   return (
     <>
       {/* Left Page (HCK 001) */}
-      <article className="flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-t-[3px] mobile:rounded-b-none mobile:px-4 mobile:py-4 mobile:border-b mobile:border-dashed mobile:border-[#d8cfb8] lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-l-[3px] lg:rounded-r-none lg:px-7 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[inset_1px_0px_0px_0px_#e2dac6,-2px_0px_0px_0px_#ede6d3,-4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative">
+      <article className={`${mobilePage === 1 ? 'flex' : 'hidden'} lg:flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-[3px] mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-l-[3px] lg:rounded-r-none lg:px-7 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[inset_1px_0px_0px_0px_#e2dac6,-2px_0px_0px_0px_#ede6d3,-4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative`}>
         <div className="flex w-full items-start bg-[linear-gradient(to_left,#0000002e,#00000010_30%,transparent)] absolute top-0 right-0 bottom-0 pointer-events-none mobile:hidden" />
         
         <div className="flex w-full items-center justify-between pb-1.5">
@@ -1581,6 +1747,20 @@ function ChapterHackathons({ goToChapter, onOpenCert }) {
           </div>
         </div>
 
+        {/* Mobile Turn to Page 2 Banner */}
+        <div className="hidden mobile:flex w-full items-center justify-between border-t border-dashed border-[#c7d7ef] pt-2.5 mt-3">
+          <span className="font-['IBM_Plex_Mono'] text-[10px] text-[#8a8a84]">
+            Page 1 of 2
+          </span>
+          <button
+            onClick={() => setMobilePage?.(2)}
+            className="flex items-center gap-1.5 rounded-[3px] bg-[#c0392b] px-3 py-1.5 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-white shadow-sm hover:bg-[#a83226] cursor-pointer transition-colors"
+          >
+            <span>Turn to AWS Hackathon</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <div className="flex w-full items-end justify-end pt-2 grow">
           <span className="font-['IBM_Plex_Mono'] text-[10px] font-[400] leading-[14px] text-[#8a8a84]">
             12
@@ -1589,14 +1769,14 @@ function ChapterHackathons({ goToChapter, onOpenCert }) {
 
         {/* Bottom Left Page Curl */}
         <button
-          onClick={() => goToChapter('P')}
+          onClick={() => goToChapter('P', 2)}
           title="Turn back to Chapter P (Page 8)"
           className="flex h-8 w-8 flex-none items-start rounded-tr-[4px] shadow-[3px_-3px_5px_0px_#0000001f] absolute left-0 bottom-0 bg-[linear-gradient(45deg,#d8cfb8_50%,#ece5d3_50%,#fbf8f0_100%)] transition-all duration-300 hover:h-11 hover:w-11 cursor-pointer"
         />
       </article>
 
       {/* Right Page (HCK 002 & HCK 003) */}
-      <article className="flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-b-[3px] mobile:rounded-t-none mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-r-[3px] lg:rounded-l-none lg:pl-7 lg:pr-10 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[2px_0px_0px_0px_#ede6d3,4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative">
+      <article className={`${mobilePage === 2 ? 'flex' : 'hidden'} lg:flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-[3px] mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-r-[3px] lg:rounded-l-none lg:pl-7 lg:pr-10 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[2px_0px_0px_0px_#ede6d3,4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative`}>
         <div className="flex w-12 items-start bg-[linear-gradient(to_right,#00000033,#00000012_30%,transparent)] absolute top-0 left-0 bottom-0 pointer-events-none mobile:hidden" />
         
         <div className="flex w-full items-center justify-between pb-1.5">
@@ -1683,8 +1863,25 @@ function ChapterHackathons({ goToChapter, onOpenCert }) {
           </span>
         </div>
 
+        {/* Mobile Page 2 Navigation Banner */}
+        <div className="hidden mobile:flex w-full items-center justify-between border-t border-dashed border-[#c7d7ef] pt-2.5 mt-3">
+          <button
+            onClick={() => setMobilePage?.(1)}
+            className="flex items-center gap-1 rounded-[3px] border border-[#c9c6b8] bg-[#f6f3e7] px-2.5 py-1 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-[#3a3a36] shadow-sm hover:bg-white cursor-pointer transition-colors"
+          >
+            <span>← Back to M-PESA Hackathon</span>
+          </button>
+          <button
+            onClick={() => goToChapter('S', 1)}
+            className="flex items-center gap-1.5 rounded-[3px] bg-[#c0392b] px-3 py-1 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-white shadow-sm hover:bg-[#a83226] cursor-pointer transition-colors"
+          >
+            <span>Chapter S (Stack)</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <button
-          onClick={() => goToChapter('S')}
+          onClick={() => goToChapter('S', 1)}
           className="flex w-full items-end justify-between pt-2 grow gap-4 text-left cursor-pointer hover:text-[#c0392b]"
         >
           <span className="font-['IBM_Plex_Mono'] text-[9.5px] font-[400] leading-[14px] tracking-wider text-[#8a8a84]">
@@ -1697,7 +1894,7 @@ function ChapterHackathons({ goToChapter, onOpenCert }) {
 
         {/* Bottom Right Page Curl */}
         <button
-          onClick={() => goToChapter('S')}
+          onClick={() => goToChapter('S', 1)}
           title="Turn to Chapter S (Page 15)"
           className="flex h-8 w-8 flex-none items-start rounded-tl-[4px] shadow-[-3px_-3px_5px_0px_#0000001f] absolute right-0 bottom-0 bg-[linear-gradient(315deg,#d8cfb8_50%,#ece5d3_50%,#fbf8f0_100%)] transition-all duration-300 hover:h-11 hover:w-11 cursor-pointer"
         />
@@ -1709,11 +1906,11 @@ function ChapterHackathons({ goToChapter, onOpenCert }) {
 // ==========================================
 // CHAPTER S: Stack
 // ==========================================
-function ChapterStack({ goToChapter }) {
+function ChapterStack({ goToChapter, mobilePage = 1, setMobilePage }) {
   return (
     <>
       {/* Left Page (Languages, FE, BE) */}
-      <article className="flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-t-[3px] mobile:rounded-b-none mobile:px-4 mobile:py-4 mobile:border-b mobile:border-dashed mobile:border-[#d8cfb8] lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-l-[3px] lg:rounded-r-none lg:px-7 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[inset_1px_0px_0px_0px_#e2dac6,-2px_0px_0px_0px_#ede6d3,-4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative">
+      <article className={`${mobilePage === 1 ? 'flex' : 'hidden'} lg:flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-[3px] mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-l-[3px] lg:rounded-r-none lg:px-7 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[inset_1px_0px_0px_0px_#e2dac6,-2px_0px_0px_0px_#ede6d3,-4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative`}>
         <div className="flex w-full items-start bg-[linear-gradient(to_left,#0000002e,#00000010_30%,transparent)] absolute top-0 right-0 bottom-0 pointer-events-none mobile:hidden" />
         
         <div className="flex w-full items-center justify-between pb-1.5">
@@ -1816,6 +2013,20 @@ function ChapterStack({ goToChapter }) {
 
         </div>
 
+        {/* Mobile Turn to Page 2 Banner */}
+        <div className="hidden mobile:flex w-full items-center justify-between border-t border-dashed border-[#c7d7ef] pt-2.5 mt-3">
+          <span className="font-['IBM_Plex_Mono'] text-[10px] text-[#8a8a84]">
+            Page 1 of 2
+          </span>
+          <button
+            onClick={() => setMobilePage?.(2)}
+            className="flex items-center gap-1.5 rounded-[3px] bg-[#c0392b] px-3 py-1.5 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-white shadow-sm hover:bg-[#a83226] cursor-pointer transition-colors"
+          >
+            <span>Turn to Infra &amp; Deploy</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <div className="flex w-full items-end justify-between pl-8 pt-2 grow gap-4">
           <span className="font-['IBM_Plex_Mono'] text-[10px] font-[400] leading-[14px] text-[#8a8a84]">
             15
@@ -1827,14 +2038,14 @@ function ChapterStack({ goToChapter }) {
 
         {/* Bottom Left Page Curl */}
         <button
-          onClick={() => goToChapter('H')}
+          onClick={() => goToChapter('H', 2)}
           title="Turn back to Chapter H (Page 13)"
           className="flex h-8 w-8 flex-none items-start rounded-tr-[4px] shadow-[3px_-3px_5px_0px_#0000001f] absolute left-0 bottom-0 bg-[linear-gradient(45deg,#d8cfb8_50%,#ece5d3_50%,#fbf8f0_100%)] transition-all duration-300 hover:h-11 hover:w-11 cursor-pointer"
         />
       </article>
 
       {/* Right Page (Data, Deploy, Circulation) */}
-      <article className="flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-b-[3px] mobile:rounded-t-none mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-r-[3px] lg:rounded-l-none lg:pl-7 lg:pr-10 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[2px_0px_0px_0px_#ede6d3,4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative">
+      <article className={`${mobilePage === 2 ? 'flex' : 'hidden'} lg:flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-[3px] mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-r-[3px] lg:rounded-l-none lg:pl-7 lg:pr-10 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[2px_0px_0px_0px_#ede6d3,4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative`}>
         <div className="flex w-12 items-start bg-[linear-gradient(to_right,#00000033,#00000012_30%,transparent)] absolute top-0 left-0 bottom-0 pointer-events-none mobile:hidden" />
         
         <div className="flex w-full items-center justify-between pb-1.5">
@@ -1970,8 +2181,25 @@ function ChapterStack({ goToChapter }) {
           </div>
         </div>
 
+        {/* Mobile Page 2 Navigation Banner */}
+        <div className="hidden mobile:flex w-full items-center justify-between border-t border-dashed border-[#c7d7ef] pt-2.5 mt-3">
+          <button
+            onClick={() => setMobilePage?.(1)}
+            className="flex items-center gap-1 rounded-[3px] border border-[#c9c6b8] bg-[#f6f3e7] px-2.5 py-1 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-[#3a3a36] shadow-sm hover:bg-white cursor-pointer transition-colors"
+          >
+            <span>← Back to Languages &amp; Stack</span>
+          </button>
+          <button
+            onClick={() => goToChapter('O', 1)}
+            className="flex items-center gap-1.5 rounded-[3px] bg-[#c0392b] px-3 py-1 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-white shadow-sm hover:bg-[#a83226] cursor-pointer transition-colors"
+          >
+            <span>Chapter O (Off Duty)</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <button
-          onClick={() => goToChapter('O')}
+          onClick={() => goToChapter('O', 1)}
           className="flex w-full items-end justify-between pr-4 pt-2 grow gap-4 text-left cursor-pointer hover:text-[#c0392b]"
         >
           <span className="font-['IBM_Plex_Mono'] text-[9.5px] font-[500] leading-[14px] text-[#c0392b] hover:text-[#a83226]">
@@ -1984,7 +2212,7 @@ function ChapterStack({ goToChapter }) {
 
         {/* Bottom Right Page Curl */}
         <button
-          onClick={() => goToChapter('O')}
+          onClick={() => goToChapter('O', 1)}
           title="Turn to Chapter O (Page 18)"
           className="flex h-8 w-8 flex-none items-start rounded-tl-[4px] shadow-[-3px_-3px_5px_0px_#0000001f] absolute right-0 bottom-0 bg-[linear-gradient(315deg,#d8cfb8_50%,#ece5d3_50%,#fbf8f0_100%)] transition-all duration-300 hover:h-11 hover:w-11 cursor-pointer"
         />
@@ -1996,11 +2224,11 @@ function ChapterStack({ goToChapter }) {
 // ==========================================
 // CHAPTER O: Off Duty (Music & Football)
 // ==========================================
-function ChapterOffDuty({ goToChapter, isVinylSpinning, setIsVinylSpinning }) {
+function ChapterOffDuty({ goToChapter, isVinylSpinning, setIsVinylSpinning, mobilePage = 1, setMobilePage }) {
   return (
     <>
       {/* Left Page (Side A · Music) */}
-      <article className="flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-t-[3px] mobile:rounded-b-none mobile:px-4 mobile:py-4 mobile:border-b mobile:border-dashed mobile:border-[#d8cfb8] lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-l-[3px] lg:rounded-r-none lg:px-7 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[inset_1px_0px_0px_0px_#e2dac6,-2px_0px_0px_0px_#ede6d3,-4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative">
+      <article className={`${mobilePage === 1 ? 'flex' : 'hidden'} lg:flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-[3px] mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-l-[3px] lg:rounded-r-none lg:px-7 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[inset_1px_0px_0px_0px_#e2dac6,-2px_0px_0px_0px_#ede6d3,-4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative`}>
         <div className="flex w-full items-start bg-[linear-gradient(to_left,#0000002e,#00000010_30%,transparent)] absolute top-0 right-0 bottom-0 pointer-events-none mobile:hidden" />
         
         <div className="flex w-full items-center justify-between pb-1.5">
@@ -2170,9 +2398,23 @@ function ChapterOffDuty({ goToChapter, isVinylSpinning, setIsVinylSpinning }) {
           </div>
         </div>
 
+        {/* Mobile Turn to Page 2 Banner */}
+        <div className="hidden mobile:flex w-full items-center justify-between border-t border-dashed border-[#c7d7ef] pt-2.5 mt-3">
+          <span className="font-['IBM_Plex_Mono'] text-[10px] text-[#8a8a84]">
+            Page 1 of 2
+          </span>
+          <button
+            onClick={() => setMobilePage?.(2)}
+            className="flex items-center gap-1.5 rounded-[3px] bg-[#c0392b] px-3 py-1.5 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-white shadow-sm hover:bg-[#a83226] cursor-pointer transition-colors"
+          >
+            <span>Turn to Side B · Football</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <div className="flex w-full items-end justify-between pl-8 pt-2 grow gap-4">
           <button
-            onClick={() => goToChapter('A')}
+            onClick={() => goToChapter('A', 1)}
             className="font-['IBM_Plex_Mono'] text-[9px] font-[400] leading-[14px] tracking-wider text-[#8a8a84] hover:text-[#c0392b] cursor-pointer"
           >
             ← back to contents
@@ -2184,14 +2426,14 @@ function ChapterOffDuty({ goToChapter, isVinylSpinning, setIsVinylSpinning }) {
 
         {/* Bottom Left Page Curl */}
         <button
-          onClick={() => goToChapter('S')}
+          onClick={() => goToChapter('S', 2)}
           title="Turn back to Chapter S (Page 16)"
           className="flex h-8 w-8 flex-none items-start rounded-tr-[4px] shadow-[3px_-3px_5px_0px_#0000001f] absolute left-0 bottom-0 bg-[linear-gradient(45deg,#d8cfb8_50%,#ece5d3_50%,#fbf8f0_100%)] transition-all duration-300 hover:h-11 hover:w-11 cursor-pointer"
         />
       </article>
 
       {/* Right Page (Side B · Football) */}
-      <article className="flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-b-[3px] mobile:rounded-t-none mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-r-[3px] lg:rounded-l-none lg:pl-7 lg:pr-10 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[2px_0px_0px_0px_#ede6d3,4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative">
+      <article className={`${mobilePage === 2 ? 'flex' : 'hidden'} lg:flex w-full mobile:w-full mobile:basis-auto mobile:grow-0 mobile:shrink-0 mobile:h-auto mobile:overflow-visible mobile:rounded-[3px] mobile:px-4 mobile:py-4 lg:w-1/2 lg:grow lg:shrink-0 lg:basis-0 lg:overflow-hidden lg:h-full lg:rounded-r-[3px] lg:rounded-l-none lg:pl-7 lg:pr-10 lg:py-3 flex-col items-start bg-[#fbf8f0] shadow-[2px_0px_0px_0px_#ede6d3,4px_0px_0px_0px_#e2dac6] bg-[radial-gradient(#8a7a5a0d_1px,transparent_1px)] bg-[length:4px_4px] relative`}>
         <div className="flex w-12 items-start bg-[linear-gradient(to_right,#00000033,#00000012_30%,transparent)] absolute top-0 left-0 bottom-0 pointer-events-none mobile:hidden" />
         
         <div className="flex w-full items-center justify-between pb-1.5">
@@ -2330,8 +2572,25 @@ function ChapterOffDuty({ goToChapter, isVinylSpinning, setIsVinylSpinning }) {
 
         </div>
 
+        {/* Mobile Page 2 Navigation Banner */}
+        <div className="hidden mobile:flex w-full items-center justify-between border-t border-dashed border-[#c7d7ef] pt-2.5 mt-3">
+          <button
+            onClick={() => setMobilePage?.(1)}
+            className="flex items-center gap-1 rounded-[3px] border border-[#c9c6b8] bg-[#f6f3e7] px-2.5 py-1 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-[#3a3a36] shadow-sm hover:bg-white cursor-pointer transition-colors"
+          >
+            <span>← Back to Side A · Music</span>
+          </button>
+          <button
+            onClick={() => goToChapter('A', 1)}
+            className="flex items-center gap-1.5 rounded-[3px] bg-[#c0392b] px-3 py-1 text-[11px] font-['IBM_Plex_Mono'] font-[600] text-white shadow-sm hover:bg-[#a83226] cursor-pointer transition-colors"
+          >
+            <span>Return to Contents (A)</span>
+            <span>→</span>
+          </button>
+        </div>
+
         <button
-          onClick={() => goToChapter('A')}
+          onClick={() => goToChapter('A', 1)}
           className="flex w-full items-end justify-between pt-2 grow gap-4 text-left cursor-pointer hover:text-[#c0392b]"
         >
           <span className="font-['IBM_Plex_Mono'] text-[9.5px] font-[400] leading-[14px] tracking-wider text-[#8a8a84]">
@@ -2344,7 +2603,7 @@ function ChapterOffDuty({ goToChapter, isVinylSpinning, setIsVinylSpinning }) {
 
         {/* Bottom Right Page Curl (Back to Beginning) */}
         <button
-          onClick={() => goToChapter('A')}
+          onClick={() => goToChapter('A', 1)}
           title="Turn back to Contents (Page i)"
           className="flex h-8 w-8 flex-none items-start rounded-tl-[4px] shadow-[-3px_-3px_5px_0px_#0000001f] absolute right-0 bottom-0 bg-[linear-gradient(315deg,#d8cfb8_50%,#ece5d3_50%,#fbf8f0_100%)] transition-all duration-300 hover:h-11 hover:w-11 cursor-pointer"
         />
