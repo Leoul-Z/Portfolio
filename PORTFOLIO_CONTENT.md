@@ -27,8 +27,8 @@ Curious and analytical software engineer focused on designing clean architecture
 ### Quick Metrics
 * **8+ Months** Intensive ALX Software Engineering (Back-End) Specialization
 * **5** Verified Industry Certifications (ALX, Udacity, Huawei)
-* **3+** Full-Stack Production Applications Deployed
-* **18+** Core Languages, Frameworks, and Technologies
+* **4+** Full-Stack & AI Production Applications Deployed
+* **24+** Core Languages, Frameworks, and Technologies
 
 ---
 
@@ -62,12 +62,14 @@ I hold myself to high standards of **discipline, consistency, and craftsmanship*
 ### Backend & Architecture
 * **Node.js** — Asynchronous server runtime
 * **Express.js** — RESTful API design & middleware pipeline
+* **FastAPI** — High-performance asynchronous Python web framework for RESTful APIs
 * **Django** — Python web framework
 * **REST APIs** — Resource routing, error handling & JSON contracts
 * **Authentication** — JWT (JSON Web Tokens), Role-Based Access Control (RBAC), bcrypt hashing
 
-### Frontend Development
+### Frontend & Mobile Development
 * **React 19** — Component-driven architectures, hooks, state management
+* **Flutter** — Cross-platform mobile application development (Dart)
 * **Tailwind CSS (v4)** — Utility-first styling & design systems
 * **HTML5** — Semantic markup, accessibility (a11y)
 * **CSS3** — Responsive layouts, Flexbox, CSS Grid, keyframe animations
@@ -128,6 +130,19 @@ I hold myself to high standards of **discipline, consistency, and craftsmanship*
   * Interactive client-side shopping cart state management with checkout simulation.
   * Veterinary and grooming appointment reservation booking system.
 
+### 4. Didactic AI
+* **Category:** Intelligent Academic Evaluation Platform (AWS Hackathon Finalist)
+* **Year:** 2026
+* **Technologies:** React, FastAPI, PostgreSQL, Python
+* **Live Demo:** [https://didactic-ai-tau.vercel.app](https://didactic-ai-tau.vercel.app)
+* **Source Code:** [https://github.com/Leoul-Z](https://github.com/Leoul-Z)
+* **Overview:** An automated assessment and evaluation platform designed to grade academic submissions with structured prompts, analytics, and instant feedback. Built for and selected as a finalist in the AWS Hackathon.
+* **Key Features & Architecture:**
+  * High-throughput asynchronous FastAPI backend providing automated evaluation endpoints.
+  * Relational PostgreSQL schema modeling rubrics, student submissions, scoring criteria, and audit logs.
+  * Dynamic React web dashboard allowing students and instructors to inspect detailed grading breakdowns and performance metrics.
+  * Prompt engineering pipelines engineered for deterministic scoring, feedback generation, and rubric alignment.
+
 ---
 
 ## 📜 Verified Certifications & Credentials
@@ -164,6 +179,22 @@ I hold myself to high standards of **discipline, consistency, and craftsmanship*
 * **Date Awarded:** May 2025
 * **Program Duration:** ~4 Months
 * **Description:** Huawei Certified ICT Associate in Data Communications. Covers networking fundamentals, IP routing and switching, network protocols, WLAN, and data center network architectures used in enterprise environments.
+
+---
+
+## 🏆 Hackathons & Competitions
+
+### 1. Cashless Community M-PESA Hackathon 2026
+* **Role:** Backend and Mobile Developer
+* **Date & Location:** 2026 · Addis Ababa
+* **Project:** E-Tourism Platform with Flutter & FastAPI
+* **Result:** Finalist
+
+### 2. AWS Hackathon
+* **Role:** Full-Stack Developer
+* **Date & Location:** 2026 · Online
+* **Project:** Didactic AI, Intelligent Academic Evaluation with React, FastAPI & PostgreSQL
+* **Result:** Finalist
 
 ---
 

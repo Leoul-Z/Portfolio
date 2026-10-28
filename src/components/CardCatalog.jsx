@@ -171,7 +171,7 @@ function CardCatalog() {
             </div>
             <div className="flex flex-col items-start">
               <span className="w-full font-['Instrument_Sans'] text-[15px] font-[600] leading-[23px] text-[#1c1c1a]">
-                The Zerihun Catalog
+                The Leoul Catalog
               </span>
               <span className="w-full font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] tracking-[0.15em] text-[#6b6b66] uppercase">
                 Drawer A–G · Software Engineer
@@ -339,7 +339,7 @@ function CardCatalog() {
                   ENG
                 </span>
                 <span className="font-['IBM_Plex_Mono'] text-[26px] font-[600] leading-[33px] text-[#1f2a44]">
-                  026.LZ
+                  06.LZ
                 </span>
               </div>
             </div>
@@ -367,14 +367,6 @@ function CardCatalog() {
                 </span>
                 <span className="max-w-[640px] font-['IBM_Plex_Mono'] text-[14px] font-[400] leading-[21px] text-[#1c1c1a]">
                   Curious and analytical. I enjoy breaking complex problems down into efficient, practical solutions, and I value discipline, consistency and attention to detail.
-                </span>
-              </div>
-              <div className="flex w-full gap-6 border-b border-solid border-[#c7d7ef] py-3 items-baseline mobile:flex-col mobile:gap-1">
-                <span className="w-32 flex-none font-['IBM_Plex_Mono'] text-[12px] font-[400] leading-[18px] tracking-[0.12em] text-[#c0392b] shrink-0 uppercase">
-                  Holdings
-                </span>
-                <span className="font-['IBM_Plex_Mono'] text-[14px] font-[400] leading-[21px] text-[#1c1c1a]">
-                  2 experiences · 3 projects · 6 certificates · 22 technologies
                 </span>
               </div>
               <div className="flex w-full gap-6 border-b border-solid border-[#c7d7ef] py-3 items-baseline mobile:flex-col mobile:gap-1">
@@ -542,10 +534,10 @@ function CardCatalog() {
             </div>
           </div>
           
-          <div className="w-full items-start gap-6 rounded-[2px] border-t-4 border-solid border-[#d8cfae] bg-[#dedad0] px-8 pt-8 pb-12 grid grid-cols-3 mobile:gap-5 mobile:px-4 mobile:py-4 mobile:grid-cols-1 shadow-sm">
+          <div className="w-full items-start gap-6 rounded-[2px] border-t-4 border-solid border-[#d8cfae] bg-[#dedad0] px-8 pt-8 pb-12 grid grid-cols-2 mobile:gap-5 mobile:px-4 mobile:py-4 mobile:grid-cols-1 shadow-sm">
             
             {/* PRJ 001 - Hulu Rent */}
-            <article className="flex flex-col items-start self-stretch rounded-[2px] border-t-[3px] border-solid border-[#c0392b] bg-[#ffffff] px-6 pt-4 pb-5 shadow-[0px_4px_12px_0px_#0000001a] -rotate-[1deg] hover:rotate-0 transition-transform mobile:hover:rotate-0 mobile:rotate-0">
+            <article className="flex flex-col items-start self-stretch rounded-[2px] border-t-[3px] border-solid border-[#c0392b] bg-[#ffffff] px-6 pt-4 pb-5 shadow-[0px_4px_12px_0px_#0000001a] -rotate-[0.8deg] hover:rotate-0 transition-transform mobile:hover:rotate-0 mobile:rotate-0">
               <div className="flex w-full items-center justify-between pb-2">
                 <span className="font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] tracking-[0.15em] text-[#8a8a84] uppercase">
                   PRJ 001.HR
@@ -620,7 +612,7 @@ function CardCatalog() {
             </article>
 
             {/* PRJ 002 - DeskFlow */}
-            <article className="flex flex-col items-start self-stretch rounded-[2px] border-t-[3px] border-solid border-[#c0392b] bg-[#ffffff] px-6 pt-4 pb-5 shadow-[0px_4px_12px_0px_#0000001a] rotate-[1.2deg] translate-y-5 hover:rotate-0 transition-transform mobile:hover:rotate-0 mobile:rotate-0 mobile:translate-y-0">
+            <article className="flex flex-col items-start self-stretch rounded-[2px] border-t-[3px] border-solid border-[#c0392b] bg-[#ffffff] px-6 pt-4 pb-5 shadow-[0px_4px_12px_0px_#0000001a] rotate-[0.8deg] translate-y-1 hover:rotate-0 transition-transform mobile:hover:rotate-0 mobile:rotate-0 mobile:translate-y-0">
               <div className="flex w-full items-center justify-between pb-2">
                 <span className="font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] tracking-[0.15em] text-[#8a8a84] uppercase">
                   PRJ 002.DF
@@ -695,7 +687,7 @@ function CardCatalog() {
             </article>
 
             {/* PRJ 003 - Petify */}
-            <article className="flex flex-col items-start self-stretch rounded-[2px] border-t-[3px] border-solid border-[#c0392b] bg-[#ffffff] px-6 pt-4 pb-5 shadow-[0px_4px_12px_0px_#0000001a] -rotate-[0.6deg] translate-y-2 hover:rotate-0 transition-transform mobile:hover:rotate-0 mobile:rotate-0 mobile:translate-y-0">
+            <article className="flex flex-col items-start self-stretch rounded-[2px] border-t-[3px] border-solid border-[#c0392b] bg-[#ffffff] px-6 pt-4 pb-5 shadow-[0px_4px_12px_0px_#0000001a] -rotate-[0.6deg] hover:rotate-0 transition-transform mobile:hover:rotate-0 mobile:rotate-0">
               <div className="flex w-full items-center justify-between pb-2">
                 <span className="font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] tracking-[0.15em] text-[#8a8a84] uppercase">
                   PRJ 003.PT
@@ -764,6 +756,81 @@ function CardCatalog() {
                   </div>
                   <span className="font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] text-[#8a8a84]">
                     petify-plum.vercel.app
+                  </span>
+                </div>
+              </div>
+            </article>
+
+            {/* PRJ 004 - Didactic AI */}
+            <article id="prj-didactic" className="flex flex-col items-start self-stretch rounded-[2px] border-t-[3px] border-solid border-[#c0392b] bg-[#ffffff] px-6 pt-4 pb-5 shadow-[0px_4px_12px_0px_#0000001a] rotate-[0.7deg] translate-y-1 hover:rotate-0 transition-transform mobile:hover:rotate-0 mobile:rotate-0 mobile:translate-y-0">
+              <div className="flex w-full items-center justify-between pb-2">
+                <span className="font-['IBM_Plex_Mono'] text-[11px] font-[600] leading-[17px] tracking-[0.15em] text-[#c0392b] uppercase">
+                  PRJ 004.DA · AWS Finalist
+                </span>
+                <span className="font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] text-[#8a8a84]">
+                  c.1
+                </span>
+              </div>
+              <div className="flex w-full gap-4 border-b border-solid border-[#c7d7ef] py-2 items-baseline">
+                <span className="w-16 flex-none font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] text-[#c0392b] shrink-0 uppercase">
+                  Title
+                </span>
+                <span className="font-['Instrument_Sans'] text-[22px] font-[600] leading-[30px] text-[#1c1c1a]">
+                  Didactic AI
+                </span>
+              </div>
+              <div className="flex w-full gap-4 border-b border-solid border-[#c7d7ef] py-2 items-baseline">
+                <span className="w-16 flex-none font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] text-[#c0392b] shrink-0 uppercase">
+                  Date
+                </span>
+                <span className="font-['IBM_Plex_Mono'] text-[13px] font-[400] leading-[20px] text-[#1c1c1a]">
+                  2026
+                </span>
+              </div>
+              <div className="flex w-full gap-4 border-b border-solid border-[#c7d7ef] py-2 items-baseline">
+                <span className="w-16 flex-none font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] text-[#c0392b] shrink-0 uppercase">
+                  Subject
+                </span>
+                <span className="font-['IBM_Plex_Mono'] text-[13px] font-[400] leading-[20px] text-[#1c1c1a]">
+                  React — FastAPI — PostgreSQL
+                </span>
+              </div>
+              <div className="flex w-full gap-4 border-b border-solid border-[#c7d7ef] py-2 items-baseline">
+                <span className="w-16 flex-none font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] text-[#c0392b] shrink-0 uppercase">
+                  Summary
+                </span>
+                <span className="font-['IBM_Plex_Mono'] text-[13px] font-[400] leading-[21px] text-[#1c1c1a]">
+                  Intelligent academic evaluation system featuring automated assessment, prompt engineering, and performance analytics — built for the AWS Hackathon (Finalist).
+                </span>
+              </div>
+              <div className="flex w-full gap-4 py-2 items-baseline">
+                <span className="w-16 flex-none font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] text-[#c0392b] shrink-0 uppercase">
+                  See:
+                </span>
+                <div className="flex flex-col items-start gap-1">
+                  <div className="flex items-center gap-2">
+                    <a
+                      href="https://didactic-ai-tau.vercel.app"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-['IBM_Plex_Mono'] text-[13px] font-[600] leading-[20px] text-[#1f4fa3] underline hover:text-[#c0392b] cursor-pointer"
+                    >
+                      Live ↗
+                    </a>
+                    <span className="font-['IBM_Plex_Mono'] text-[13px] font-[400] leading-[20px] text-[#8a8a84]">
+                      ·
+                    </span>
+                    <a
+                      href="https://github.com/eyustarX/didactic-ai"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-['IBM_Plex_Mono'] text-[13px] font-[600] leading-[20px] text-[#1f4fa3] underline hover:text-[#c0392b] cursor-pointer"
+                    >
+                      Source ↗
+                    </a>
+                  </div>
+                  <span className="font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] text-[#8a8a84]">
+                    didactic-ai-tau.vercel.app
                   </span>
                 </div>
               </div>
@@ -989,7 +1056,7 @@ function CardCatalog() {
                   </span>
                 </div>
                 <span className="w-full font-['Instrument_Sans'] text-[20px] font-[600] leading-[25px] text-[#1c1c1a] border-b border-solid border-[#c7d7ef] pb-2">
-                  Campus Innovation Hackathon
+                  Cashless Community M-PESA Hackathon 2026
                 </span>
                 <div className="flex w-full gap-4 border-b border-solid border-[#c7d7ef] pb-2 items-baseline">
                   <span className="w-16 flex-none font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] tracking-[0.12em] text-[#c0392b] uppercase">
@@ -1004,7 +1071,7 @@ function CardCatalog() {
                     Team
                   </span>
                   <span className="font-['IBM_Plex_Mono'] text-[13px] font-[400] leading-[20px] text-[#3a3a36]">
-                    Lead Full-Stack Developer
+                    Backend and Mobile Developer
                   </span>
                 </div>
                 <div className="flex w-full gap-4 border-b border-solid border-[#c7d7ef] pb-2 items-baseline">
@@ -1012,19 +1079,19 @@ function CardCatalog() {
                     Built
                   </span>
                   <span className="font-['IBM_Plex_Mono'] text-[13px] font-[400] leading-[20px] text-[#3a3a36]">
-                    Automated service dispatcher and booking engine with React &amp; Node.js.
+                    E-Tourisum Platform with Flutter &amp; FastAPI.
                   </span>
                 </div>
                 <div className="flex w-full items-end justify-between pt-1 gap-2">
                   <a
-                    href="#projects"
+                    href="#stack"
                     className="font-['IBM_Plex_Mono'] text-[12px] font-[600] leading-[18px] text-[#1f4fa3] underline hover:text-[#c0392b]"
                   >
-                    Project →
+                    Stack →
                   </a>
                   <div className="flex items-start rounded-[2px] border-[3px] border-solid border-[#c0392b] px-3 py-1 opacity-85 -rotate-[8deg] select-none">
                     <span className="font-['IBM_Plex_Mono'] text-[18px] font-[700] leading-[26px] tracking-[0.1em] text-[#c0392b]">
-                      1ST PLACE
+                      FINALIST
                     </span>
                   </div>
                 </div>
@@ -1041,14 +1108,14 @@ function CardCatalog() {
                   </span>
                 </div>
                 <span className="w-full font-['Instrument_Sans'] text-[20px] font-[600] leading-[25px] text-[#1c1c1a] border-b border-solid border-[#c7d7ef] pb-2">
-                  Web &amp; Cloud Sprint
+                  AWS Hackathon
                 </span>
                 <div className="flex w-full gap-4 border-b border-solid border-[#c7d7ef] pb-2 items-baseline">
                   <span className="w-16 flex-none font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] tracking-[0.12em] text-[#c0392b] uppercase">
                     Date
                   </span>
                   <span className="font-['IBM_Plex_Mono'] text-[13px] font-[400] leading-[20px] text-[#3a3a36]">
-                    2025 · Online
+                    2026 · Online
                   </span>
                 </div>
                 <div className="flex w-full gap-4 border-b border-solid border-[#c7d7ef] pb-2 items-baseline">
@@ -1056,7 +1123,7 @@ function CardCatalog() {
                     Team
                   </span>
                   <span className="font-['IBM_Plex_Mono'] text-[13px] font-[400] leading-[20px] text-[#3a3a36]">
-                    Backend &amp; Database Lead
+                    Full-stack Developer
                   </span>
                 </div>
                 <div className="flex w-full gap-4 border-b border-solid border-[#c7d7ef] pb-2 items-baseline">
@@ -1064,12 +1131,12 @@ function CardCatalog() {
                     Built
                   </span>
                   <span className="font-['IBM_Plex_Mono'] text-[13px] font-[400] leading-[20px] text-[#3a3a36]">
-                    Real-time collaborative task pipeline with PostgreSQL &amp; Express.
+                    Didactic AI, Intelligent Academic Evaluation with React, FastAPI &amp; PostgreSQL.
                   </span>
                 </div>
                 <div className="flex w-full items-end justify-between pt-1 gap-2">
                   <a
-                    href="#projects"
+                    href="#prj-didactic"
                     className="font-['IBM_Plex_Mono'] text-[12px] font-[600] leading-[18px] text-[#1f4fa3] underline hover:text-[#c0392b]"
                   >
                     Project →
@@ -1082,18 +1149,6 @@ function CardCatalog() {
                 </div>
               </article>
 
-              {/* HCK 003 Reserved Card */}
-              <article className="flex flex-col items-center justify-center gap-2 self-stretch rounded-[2px] border-2 border-dashed border-[#b8b3a6] px-5 py-8 -rotate-[0.4deg] mobile:rotate-0">
-                <span className="font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] tracking-[0.15em] text-[#8a8a84] uppercase">
-                  HCK 003
-                </span>
-                <span className="font-['Instrument_Sans'] text-[18px] font-[600] leading-[25px] text-[#6b6b66] text-center">
-                  Next entry
-                </span>
-                <span className="font-['IBM_Plex_Mono'] text-[12px] font-[400] leading-[18px] text-[#8a8a84] text-center">
-                  Card reserved for the next weekend build.
-                </span>
-              </article>
 
             </div>
           </div>
@@ -1119,7 +1174,7 @@ function CardCatalog() {
                   Cross-reference card
                 </span>
                 <span className="font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] text-[#8a8a84]">
-                  5 groups · 22 subjects
+                  5 groups · 24 subjects
                 </span>
               </div>
               <span className="w-full font-['IBM_Plex_Mono'] text-[13px] font-[400] leading-[20px] text-[#3a3a36] border-b border-solid border-[#c7d7ef] py-2">
@@ -1161,7 +1216,7 @@ function CardCatalog() {
                   </span>
                 </div>
                 <div className="flex grow shrink-0 basis-0 flex-wrap items-center gap-2">
-                  {['HTML', 'CSS', 'React', 'Tailwind CSS', 'Bootstrap', 'Vite'].map((fe, idx) => (
+                  {['HTML', 'CSS', 'React', 'Tailwind CSS', 'Flutter', 'Bootstrap', 'Vite'].map((fe, idx) => (
                     <div key={fe} className="flex items-center gap-2 rounded-[2px] border border-solid border-[#c7d7ef] bg-[#f7f9fd] px-2.5 py-1">
                       <span className="font-['IBM_Plex_Mono'] text-[10px] font-[400] leading-[15px] text-[#c0392b]">
                         FE.0{idx + 1}
@@ -1185,7 +1240,7 @@ function CardCatalog() {
                   </span>
                 </div>
                 <div className="flex grow shrink-0 basis-0 flex-wrap items-center gap-2">
-                  {['Node.js', 'Express', 'Django', 'Resend'].map((be, idx) => (
+                  {['Node.js', 'Express', 'FastAPI', 'Django', 'Resend'].map((be, idx) => (
                     <div key={be} className="flex items-center gap-2 rounded-[2px] border border-solid border-[#c7d7ef] bg-[#f7f9fd] px-2.5 py-1">
                       <span className="font-['IBM_Plex_Mono'] text-[10px] font-[400] leading-[15px] text-[#c0392b]">
                         BE.0{idx + 1}
