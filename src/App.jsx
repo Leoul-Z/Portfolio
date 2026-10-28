@@ -1,7 +1,7 @@
-import CardCatalog from './components/CardCatalog'
+import BookPortfolio from './components/BookPortfolio'
 
 function App() {
-  return <CardCatalog />
+  return <BookPortfolio />
 }
 
 export default App

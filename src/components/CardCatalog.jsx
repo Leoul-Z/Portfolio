@@ -192,7 +192,7 @@ function CardCatalog() {
               </span>
             </a>
             <a
-              href="https://linkedin.com/in/leoul-zerihun"
+              href="https://www.linkedin.com/in/leoul-zerihun-7a4414347"
               target="_blank"
               rel="noreferrer"
               className="flex items-center rounded-t-[6px] border border-solid border-[#c9c6b8] bg-[#f6f3e7] px-3 py-1.5 hover:bg-white transition-colors cursor-pointer"
@@ -212,7 +212,7 @@ function CardCatalog() {
               </span>
             </a>
             <a
-              href="https://t.me/chris_SMRJN"
+              href="https://t.me/leoniazz"
               target="_blank"
               rel="noreferrer"
               className="flex items-center rounded-t-[6px] border border-solid border-[#c9c6b8] bg-[#f6f3e7] px-3 py-1.5 hover:bg-white transition-colors cursor-pointer"
@@ -375,7 +375,8 @@ function CardCatalog() {
                 </span>
                 <span className="font-['IBM_Plex_Mono'] text-[14px] font-[400] leading-[21px] text-[#1f4fa3]">
                   <a href="https://github.com/Leoul-Z" target="_blank" rel="noreferrer" className="underline hover:text-[#c0392b]">github.com/Leoul-Z</a> ·{' '}
-                  <a href="https://linkedin.com/in/leoul-zerihun" target="_blank" rel="noreferrer" className="underline hover:text-[#c0392b]">linkedin</a> ·{' '}
+                  <a href="https://www.linkedin.com/in/leoul-zerihun-7a4414347" target="_blank" rel="noreferrer" className="underline hover:text-[#c0392b]">linkedin</a> ·{' '}
+                  <a href="https://t.me/leoniazz" target="_blank" rel="noreferrer" className="underline hover:text-[#c0392b]">telegram</a> ·{' '}
                   <a href="https://leetcode.com/u/Nasi4Z" target="_blank" rel="noreferrer" className="underline hover:text-[#c0392b]">leetcode</a> ·{' '}
                   <a href="mailto:leoulzerihun06@gmail.com" className="underline hover:text-[#c0392b]">leoulzerihun06@gmail.com</a>
                 </span>
@@ -1584,15 +1585,28 @@ function CardCatalog() {
               <div className="flex w-full flex-col items-start pt-3">
                 <div className="flex w-full gap-3 border-b border-solid border-[#c7d7ef] py-2 items-baseline">
                   <span className="w-20 flex-none font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] text-[#c0392b] uppercase">
-                    Telegram
+                    LinkedIn
                   </span>
                   <a
-                    href="https://t.me/chris_SMRJN"
+                    href="https://www.linkedin.com/in/leoul-zerihun-7a4414347"
                     target="_blank"
                     rel="noreferrer"
                     className="font-['IBM_Plex_Mono'] text-[13px] font-[400] leading-[20px] text-[#1f4fa3] underline hover:text-[#c0392b]"
                   >
-                    @chris_SMRJN
+                    leoul-zerihun
+                  </a>
+                </div>
+                <div className="flex w-full gap-3 border-b border-solid border-[#c7d7ef] py-2 items-baseline">
+                  <span className="w-20 flex-none font-['IBM_Plex_Mono'] text-[11px] font-[400] leading-[17px] text-[#c0392b] uppercase">
+                    Telegram
+                  </span>
+                  <a
+                    href="https://t.me/leoniazz"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-['IBM_Plex_Mono'] text-[13px] font-[400] leading-[20px] text-[#1f4fa3] underline hover:text-[#c0392b]"
+                  >
+                    @leoniazz
                   </a>
                 </div>
                 <div className="flex w-full gap-3 border-b border-solid border-[#c7d7ef] py-2 items-baseline">
@@ -1651,7 +1665,7 @@ function CardCatalog() {
               GitHub
             </a>
             <a
-              href="https://linkedin.com/in/leoul-zerihun"
+              href="https://www.linkedin.com/in/leoul-zerihun-7a4414347"
               target="_blank"
               rel="noreferrer"
               className="font-['IBM_Plex_Mono'] text-[12px] font-[400] leading-[18px] text-[#3a3a36] underline hover:text-[#c0392b]"
@@ -1667,7 +1681,7 @@ function CardCatalog() {
               LeetCode
             </a>
             <a
-              href="https://t.me/chris_SMRJN"
+              href="https://t.me/leoniazz"
               target="_blank"
               rel="noreferrer"
               className="font-['IBM_Plex_Mono'] text-[12px] font-[400] leading-[18px] text-[#3a3a36] underline hover:text-[#c0392b]"
